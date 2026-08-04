@@ -1,3 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import 'tailwindcss';
+@import 'flowbite/src/themes/default';
+@plugin "flowbite/plugin";
+@source "../node_modules/flowbite";
+
+@theme {
+  --color-main: #ff9f01;
+  --font-header: 'Libertinus Serif', serif;
+  --font-secondary: 'Inter', sans-serif;
+}
+h1,
+h2 {
+  font-family: var(--font-header);
+}
+body {
+  font-family: var(--font-secondary);
+}
+body::selection {
+  background: var(--color-main);
+  color: white;
+}

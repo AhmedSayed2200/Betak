@@ -1,0 +1,283 @@
+<nav class="sticky top-0 z-40 w-full border-b border-gray-200 md:px-10 lg:px-20 py-1 bg-white">
+  <div class="flex items-center justify-between">
+    <!-- logo  -->
+    <a routerLink="/home">
+      <img
+        src="/images/Logo-transperant.png"
+        alt="Betak"
+        class="w-[100px] aspect-square object-center cursor-pointer"
+      />
+    </a>
+
+    <!-- input search  -->
+    <div class="hidden lg:block grow max-w-md">
+      <div class="group relative">
+        <input
+          type="text"
+          placeholder="Search for products..."
+          class="w-full rounded-full cursor-pointer focus:cursor-text border border-gray-200 bg-gray-50 px-6 py-2 pr-12 outline-none transition-all focus:border-main focus:ring-main"
+        />
+        <button
+          class="absolute right-1 top-1 bottom-1 bg-main flex w-9 items-center justify-center rounded-full text-white transition-colors hover:bg-orange"
+        >
+          <i class="fas fa-search text-xs"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- !---------------------------- links  !---------------------------- -->
+    <div class="hidden items-center gap-6 md:flex">
+      <a
+        routerLink="/home"
+        routerLinkActive="text-orange"
+        class="font-medium text-gray-700 transition-colors hover:text-orange"
+        >Home</a
+      >
+      <a
+        routerLink="/shop"
+        routerLinkActive="text-orange"
+        class="font-medium text-gray-700 transition-colors hover:text-orange"
+        >Shop</a
+      >
+      <div class="group relative">
+        <button
+          routerLink="/categories"
+          routerLinkActive="text-orange"
+          class="flex items-center gap-1 py-2 font-medium text-gray-700 transition-colors group-hover:text-orange"
+        >
+          Categories
+          <i class="fas fa-chevron-down text-2xs transition-transform group-hover:rotate-180"></i>
+        </button>
+        <div
+          class="invisible absolute left-0 z-50 mt-0 w-48 rounded-lg border border-gray-100 bg-white opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:opacity-100"
+        >
+          <ul class="py-2 text-sm text-gray-700">
+            <li>
+              <a class="block px-4 py-2 hover:bg-main/10 hover:text-orange">All Categories</a>
+            </li>
+            <li>
+              <a class="block px-4 py-2 hover:bg-main/10 hover:text-orange">Electronics</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <a
+        routerLink="/brands"
+        routerLinkActive="text-orange"
+        class="font-medium text-gray-700 transition-colors hover:text-orange"
+        >Brands</a
+      >
+    </div>
+
+    <!-- ? --------------- ICONS  & signin ? ---------------  -->
+    <div class="flex items-center gap-2 md:gap-4 group:">
+      <a
+        class="hidden lg:flex items-center gap-2 pr-3 mr-2 border-r border-gray-200 transition-opacity"
+        routerLink="/support"
+        ><div class="w-4.5 h-4.5 rounded-full flex items-center justify-center">
+          <svg
+            data-prefix="fas"
+            data-icon="headset"
+            class="svg-inline--fa fa-headset text-main transition-all hover:text-orange"
+            role="img"
+            viewBox="0 0 448 512"
+            aria-hidden="true"
+          >
+            <path
+              fill="currentColor"
+              d="M224 64c-79 0-144.7 57.3-157.7 132.7 9.3-3 19.3-4.7 29.7-4.7l16 0c26.5 0 48 21.5 48 48l0 96c0 26.5-21.5 48-48 48l-16 0c-53 0-96-43-96-96l0-64C0 100.3 100.3 0 224 0S448 100.3 448 224l0 168.1c0 66.3-53.8 120-120.1 120l-87.9-.1-32 0c-26.5 0-48-21.5-48-48s21.5-48 48-48l32 0c26.5 0 48 21.5 48 48l0 0 40 0c39.8 0 72-32.2 72-72l0-20.9c-14.1 8.2-30.5 12.8-48 12.8l-16 0c-26.5 0-48-21.5-48-48l0-96c0-26.5 21.5-48 48-48l16 0c10.4 0 20.3 1.6 29.7 4.7-13-75.3-78.6-132.7-157.7-132.7z"
+            ></path>
+          </svg>
+        </div>
+        <div class="text-xs">
+          <div class="text-gray-400">Support</div>
+          <div class="font-semibold text-gray-700">24/7 Help</div>
+        </div></a
+      >
+
+      <button
+        routerLink="/wishlist"
+        routerLinkActive="text-orange"
+        class="relative flex h-10 w-10 items-center cursor-pointer justify-center rounded-full text-gray-600 transition-all hover:bg-gray-100 hover:text-orange"
+      >
+        <i class="far fa-heart text-xl text-gray-600 hover:text-orange"></i>
+      </button>
+      <button
+        routerLink="/cart"
+        routerLinkActive="text-orange"
+        class="relative flex h-10 w-10 items-center cursor-pointer justify-center rounded-full text-gray-600 transition-all hover:bg-gray-100 hover:text-orange"
+      >
+        <i class="fas fa-shopping-cart text-xl"></i>
+        <span
+          class="absolute right-1 top-1 rounded-full border-2 border-white bg-main hover:bg-orange px-1.5 text-2xs font-bold text-white"
+          >3</span
+        >
+      </button>
+
+      <div class="hidden sm:flex items-center gap-4 pl-2 md:border-l md:border-gray-200 md:pl-4">
+        <a
+          routerLink="/login"
+          class="flex items-center gap-2 font-medium p-3 rounded-full bg-main/90 hover:bg-orange transition-all duration-300 text-gray-700 transition-colors"
+        >
+          <i class="far fa-user text-lg"></i> Sign In
+        </a>
+      </div>
+
+      <!-- dropdown when login -->
+
+      <!-- bars button  -->
+      <button
+        type="button"
+        data-drawer-target="drawer-right"
+        data-drawer-show="drawer-right"
+        data-drawer-placement="right"
+        class="p-2 text-gray-600 hover:text-orange cursor-pointer md:hidden focus:outline-none transition-colors"
+      >
+        <i class="fas fa-bars text-2xl"></i>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- --------------- navbar responsive ---------------- -->
+
+<div
+  id="drawer-right"
+  class="fixed top-0 right-0 z-50 h-screen w-80 translate-x-full overflow-y-auto bg-white p-6 shadow-2xl transition-transform"
+  tabindex="-1"
+>
+  <!-- logo  -->
+  <div class="flex items-center justify-between">
+    <img
+      src="/images/Logo-transperant.png"
+      alt="Betak"
+      class="w-[100px] aspect-square object-center cursor-pointer"
+    />
+    <button
+      type="button"
+      data-drawer-hide="drawer-right"
+      class="rounded-full cursor-pointer bg-gray-100 p-2 text-gray-400 hover:bg-gray-200"
+    >
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- search  -->
+  <div class="relative mb-3">
+    <input
+      type="text"
+      placeholder="Search products..."
+      class="w-full rounded-lg border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm outline-none focus:border-orange focus:ring-orange"
+    />
+    <button class="absolute right-3 top-2.5 text-orange"><i class="fas fa-search"></i></button>
+  </div>
+
+  <!-- links  -->
+  <nav class="mb-3 border-b border-gray-100 pb-2">
+    <ul class="space-y-5 font-medium text-gray-800">
+      <li>
+        <a
+          routerLink="/home"
+          routerLinkActive="text-black hover:bg-main  rounded-[10px] p-2 bg-main"
+          class="block transition-colors text-gray-700 hover:text-orange cursor-pointer hover:bg-main/10"
+        >
+          <div class="flex ms-1 group">
+            <div
+              class="flex h-7 w-7 me-2 items-center justify-center rounded-full bg-gray-100 group-hover:text-orange"
+            >
+              <i class="fa-solid fa-house"></i>
+            </div>
+            <span class="font-medium group-hover:text-orange">Home</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="/shop"
+          routerLinkActive="text-black hover:bg-main  rounded-[10px] p-2 bg-main"
+          class="block text-gray-600 transition-colors hover:text-orange cursor-pointer hover:bg-main/10"
+        >
+          <div class="flex ms-1 group">
+            <div
+              class="flex h-7 w-7 me-2 items-center justify-center rounded-full bg-gray-100 group-hover:text-orange"
+            >
+              <i class="fa-solid fa-bag-shopping"></i>
+            </div>
+            <span class="font-medium group-hover:text-orange">Shop</span>
+          </div>
+        </a>
+      </li>
+      <li>
+        <a
+          routerLink="/categories"
+          routerLinkActive="text-black hover:bg-main  rounded-[10px] p-2 bg-main"
+          class="block text-gray-600 transition-colors hover:text-orange cursor-pointer"
+        >
+          <div class="flex ms-1 group">
+            <div
+              class="flex h-7 w-7 me-2 items-center justify-center rounded-full bg-gray-100 group-hover:text-orange"
+            >
+              <i class="fa-solid fa-border-all"></i>
+            </div>
+            <span class="font-medium group-hover:text-orange">Categories</span>
+          </div></a
+        >
+      </li>
+    </ul>
+  </nav>
+
+  <div class="mb-2 space-y-2">
+    <a
+      routerLink="/wishlist"
+      routerLinkActive="text-black hover:bg-main  rounded-[10px] p-2 bg-main"
+      class="group text-gray-600 flex cursor-pointer items-center gap-1 group rounded-xl p-1 transition-colors hover:bg-main/10"
+    >
+      <div
+        class="flex h-7 w-7 me-2 items-center justify-center rounded-full bg-gray-100 group-hover:text-orange"
+      >
+        <i class="far fa-heart text-md"></i>
+      </div>
+      <span class="font-medium group-hover:text-orange">Wishlist</span>
+    </a>
+    <a
+      routerLink="/cart"
+      routerLinkActive="text-black hover:bg-main  rounded-[10px] p-2 bg-main"
+      class="group text-gray-600 flex cursor-pointer items-center gap-1 rounded-xl p-1 transition-colors hover:bg-main/10"
+    >
+      <div
+        class="flex h-7 w-7 me-2 items-center justify-center group-hover:text-orange rounded-full bg-gray-100"
+      >
+        <i class="fas fa-shopping-cart text-md"></i>
+      </div>
+      <span class="font-medium group-hover:text-orange">My Cart</span>
+    </a>
+  </div>
+
+  <div class="space-y-2 border-t border-gray-100 pt-2">
+    <a
+      routerLink="/login"
+      routerLinkActive="text-black hover:bg-main  rounded-[10px] p-2 bg-main"
+      class="group text-gray-600 flex cursor-pointer items-center gap-1 rounded-xl p-1 transition-colors hover:bg-main/10"
+    >
+      <div
+        class="flex h-7 w-7 me-2 items-center justify-center rounded-full bg-gray-100 transition-colors group-hover:bg-main/10 group-hover:text-orange"
+      >
+        <i class="far fa-user text-md"></i>
+      </div>
+      <span class="font-bold group-hover:text-orange">Sign In</span>
+    </a>
+
+    <a
+      routerLink="/register"
+      routerLinkActive="text-black   rounded-[10px] p-2 bg-main"
+      class="group text-gray-600 flex cursor-pointer items-center gap-1 rounded-xl p-1 transition-colors hover:bg-main/10"
+    >
+      <div
+        class="flex h-7 w-7 me-2 items-center justify-center rounded-full bg-gray-100 transition-colors group-hover:bg-main/10 group-hover:text-orange"
+      >
+        <i class="fas fa-user-plus text-md"></i>
+      </div>
+      <span class="font-bold group-hover:text-orange">Sign Up</span>
+    </a>
+  </div>
+</div>

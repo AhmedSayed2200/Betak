@@ -1,0 +1,23 @@
+<app-main-slider></app-main-slider>
+
+<section class="container mx-auto">
+  <app-header>
+    <h2 class="text-3xl font-bold tracking-tight text-slate-900">
+      Shop By
+      <span class="bg-gradient-to-r from-main to-orange bg-clip-text text-transparent">
+        Category
+      </span>
+    </h2>
+    <p class="text-sm text-slate-500 mt-1">find everything you need in one place.</p>
+  </app-header>
+  <app-slider-category></app-slider-category>
+  <div class="flex flex-col md:flex-row my-6 md:my-[3.125rem] gap-4 md:gap-0 overflow-hidden">
+    <div class="w-full md:w-1/2 p-2" data-aos="fade-right">
+      <img src="/images/card.png" class="w-full rounded-[30px]" alt="" />
+    </div>
+    <div class="w-full md:w-1/2 p-2" data-aos="fade-left">
+      <img src="/images/card2.png" class="w-full rounded-[30px]" alt="" />
+    </div>
+  </div>
+</section>
+<app-product-list></app-product-list>

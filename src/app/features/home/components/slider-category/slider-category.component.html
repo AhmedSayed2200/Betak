@@ -1,0 +1,21 @@
+@if (categoryList1().length) {
+  <swiper-container
+    class="mySwiper"
+    slides-per-view="auto"
+    space-between="30"
+    loop="true"
+    speed="3000"
+    autoplay-delay="1"
+    autoplay-disable-on-interaction="false"
+    free-mode="true"
+  >
+    @for (category of categoryList1(); track category._id) {
+      <swiper-slide class="!w-auto">
+        <div class="">
+          <img [src]="category.image" class="size-30 rounded-full" [alt]="category.name" />
+          <h3 class="text-center">{{ category.name }}</h3>
+        </div>
+      </swiper-slide>
+    }
+  </swiper-container>
+}
