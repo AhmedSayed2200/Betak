@@ -18,6 +18,8 @@ export interface IProduct  {
   createdAt: string;
   updatedAt: string;
   id: string;
+  isLiked: boolean;
+  isAddedToCart: boolean;
 }
 
 export interface Category {

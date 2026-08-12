@@ -1,4 +1,4 @@
-@if (categoryList1().length) {
+@if (categoryList().length) {
   <swiper-container
     class="mySwiper"
     slides-per-view="auto"
@@ -9,8 +9,8 @@
     autoplay-disable-on-interaction="false"
     free-mode="true"
   >
-    @for (category of categoryList1(); track category._id) {
-      <swiper-slide class="!w-auto">
+    @for (category of categoryList(); track $index) {
+      <swiper-slide class="!w-auto cursor-pointer">
         <div class="">
           <img [src]="category.image" class="size-30 rounded-full" [alt]="category.name" />
           <h3 class="text-center">{{ category.name }}</h3>

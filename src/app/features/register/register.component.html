@@ -25,26 +25,16 @@
               ><i class="far fa-user me-1"></i> Name</label
             >
           </div>
-          @let nameControl = registerForm.get('name');
-          @if ((nameControl?.touched || nameControl?.dirty) && nameControl?.invalid) {
-            <div
-              class="flex mx-auto my-0 p-3 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
-              role="alert"
-            >
-              <span class="sr-only">Danger</span>
-              <div>
-                <ul class="list-disc list-outside space-y-1 ps-2.5">
-                  @if (nameControl?.hasError('required')) {
-                    <li class="[word-spacing:2px]">Full Name is required.</li>
-                  } @else if (nameControl?.hasError('minlength')) {
-                    <li>Name must be at least 3 characters</li>
-                  } @else if (nameControl?.hasError('maxlength')) {
-                    <li>Name must be at most 30 characters</li>
-                  }
-                </ul>
-              </div>
-            </div>
-          }
+          <app-alert
+            [formGroup]="registerForm"
+            inputName="name"
+            errorType="minlength"
+            errorType2="maxlength"
+          >
+            <ng-container firstMassage>Full Name is required.</ng-container>
+            <ng-container secondMassage>Name must be at least 3 characters</ng-container>
+            <ng-container thirdMassage>Name must be at most 30 characters</ng-container>
+          </app-alert>
         </div>
         <!-- email -->
         <div class="mb-3">
@@ -62,24 +52,10 @@
               ><i class="fa-regular fa-envelope me-1"></i> Email</label
             >
           </div>
-          @let emailControl = registerForm.get('email');
-          @if ((emailControl?.touched || emailControl?.dirty) && emailControl?.invalid) {
-            <div
-              class="flex mx-auto my-0 p-3 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
-              role="alert"
-            >
-              <span class="sr-only">Danger</span>
-              <div>
-                <ul class="list-disc list-outside space-y-1 ps-2.5">
-                  @if (emailControl?.hasError('required')) {
-                    <li class="[word-spacing:2px]">Email is required.</li>
-                  } @else if (emailControl?.hasError('email')) {
-                    <li>Please enter a valid email address.</li>
-                  }
-                </ul>
-              </div>
-            </div>
-          }
+          <app-alert [formGroup]="registerForm" inputName="email" errorType="email">
+            <ng-container firstMassage>Email is required.</ng-container>
+            <ng-container secondMassage>Please enter a valid email address.</ng-container>
+          </app-alert>
         </div>
         <!-- password -->
         <div class="mb-3">
@@ -97,27 +73,13 @@
               ><i class="fa-solid fa-lock"></i> Password</label
             >
           </div>
-          @let passwrdControl = registerForm.get('password');
-          @if ((passwrdControl?.touched || passwrdControl?.dirty) && passwrdControl?.invalid) {
-            <div
-              class="flex mx-auto my-0 p-3 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
-              role="alert"
+          <app-alert [formGroup]="registerForm" inputName="password" errorType="pattern">
+            <ng-container firstMassage>password is required.</ng-container>
+            <ng-container secondMassage
+              >must contain at least 8 chars, 1 uppercase,<br />1 lowercase, 1 number, and 1
+              special</ng-container
             >
-              <span class="sr-only">Danger</span>
-              <div>
-                <ul class="list-disc list-outside space-y-1 ps-2.5">
-                  @if (passwrdControl?.hasError('required')) {
-                    <li class="[word-spacing:2px]">password is required.</li>
-                  } @else if (passwrdControl?.hasError('pattern')) {
-                    <li class="text-start">
-                      must contain at least 8 chars, 1 uppercase,1 lowercase,<br />
-                      1 number, and 1 special
-                    </li>
-                  }
-                </ul>
-              </div>
-            </div>
-          }
+          </app-alert>
         </div>
         <!-- rePassword -->
         <div class="mb-3">
@@ -135,26 +97,10 @@
               ><i class="fa-solid fa-key me-1"></i> confirm Password</label
             >
           </div>
-          @let rePasswordControl = registerForm.get('rePassword');
-          @if (
-            (rePasswordControl?.touched || rePasswordControl?.dirty) && rePasswordControl?.invalid
-          ) {
-            <div
-              class="flex mx-auto my-0 p-3 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
-              role="alert"
-            >
-              <span class="sr-only">Danger</span>
-              <div>
-                <ul class="list-disc list-outside space-y-1 ps-2.5">
-                  @if (rePasswordControl?.hasError('required')) {
-                    <li class="[word-spacing:2px]">Please confirm your password.</li>
-                  } @else if (rePasswordControl?.hasError('mismatch')) {
-                    <li>Passwords do not match.</li>
-                  }
-                </ul>
-              </div>
-            </div>
-          }
+          <app-alert [formGroup]="registerForm" inputName="rePassword" errorType="mismatch">
+            <ng-container firstMassage>Please confirm your password.</ng-container>
+            <ng-container secondMassage>Passwords do not match.</ng-container>
+          </app-alert>
         </div>
         <!-- number -->
         <div class="mb-3">
@@ -172,24 +118,12 @@
               ><i class="fa-solid fa-phone me-1"></i> phone number</label
             >
           </div>
-          @let numberControl = registerForm.get('phone');
-          @if ((numberControl?.touched || numberControl?.dirty) && numberControl?.invalid) {
-            <div
-              class="flex mx-auto my-0 p-3 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
-              role="alert"
+          <app-alert [formGroup]="registerForm" inputName="phone" errorType="pattern">
+            <ng-container firstMassage>Phone is required.</ng-container>
+            <ng-container secondMassage
+              >Enter a valid Egyptian phone number(e.g., 01012345678).</ng-container
             >
-              <span class="sr-only">Danger</span>
-              <div>
-                <ul class="list-disc list-outside space-y-1 ps-2.5">
-                  @if (numberControl?.hasError('required')) {
-                    <li class="[word-spacing:2px]">Phone is required.</li>
-                  } @else if (numberControl?.hasError('pattern')) {
-                    <li>Enter a valid Egyptian phone number(e.g., 01012345678).</li>
-                  }
-                </ul>
-              </div>
-            </div>
-          }
+          </app-alert>
         </div>
       </div>
       <button

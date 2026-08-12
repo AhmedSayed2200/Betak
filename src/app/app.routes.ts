@@ -26,6 +26,14 @@ export const routes: Routes = [
       ),
     title: 'Categories',
   },
+    {
+    path: 'category/:slug/:id',
+    loadComponent: () =>
+      import('./features/specific-category/specific-category.component').then(
+        (m) => m.SpecificCategoryComponent
+      ),
+    title: 'Categories',
+  },
   {
     path: 'brands',
     loadComponent: () =>
@@ -33,6 +41,14 @@ export const routes: Routes = [
         (m) => m.BrandsComponent
       ),
     title: 'Brands',
+  },
+    {
+    path: 'brand/:slug/:id',
+    loadComponent: () =>
+      import('./features/brand/brand.component').then(
+        (m) => m.BrandComponent
+      ),
+    title: 'Brand',
   },
   {
     path: 'wishlist',
@@ -57,7 +73,7 @@ export const routes: Routes = [
     title: 'Product Details',
   },
   {
-    path: 'checkout',
+    path: 'checkout/:id',
     loadComponent: () =>
       import('./features/checkout/checkout.component').then(
         (m) => m.CheckoutComponent
@@ -65,12 +81,20 @@ export const routes: Routes = [
     title: 'Checkout',
   },
   {
-    path: 'orders',
+    path: 'allorders',
     loadComponent: () =>
       import('./features/orders/orders.component').then(
         (m) => m.OrdersComponent
       ),
     title: 'Orders',
+  },
+    {
+    path: 'profile',
+    loadComponent: () =>
+      import('./features/profile/profile.component').then(
+        (m) => m.ProfileComponent
+      ),
+    title: 'profile',
   },
   {
     path: 'login',

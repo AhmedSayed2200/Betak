@@ -1,0 +1,482 @@
+<div class="bg-gray-50 min-h-screen p-6 text-gray-800">
+  <div class="max-w-7xl mx-auto space-y-8">
+    <!-- Top Grid Section (Sidebar + Main Content) -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
+      <!-- Left Sidebar -->
+      <aside class="sticky top-[7.5rem] md:col-span-1 space-y-6">
+        <!-- Navigation Menu -->
+        <div class="bg-white rounded-2xl p-4 shadow-sm border border-gray-100 space-y-2">
+          <!-- My Addresses Active Item -->
+          <a
+            (click)="profilePart.set('addresses')"
+            [class]="
+              profilePart() === 'addresses'
+                ? 'bg-orange-50 text-main'
+                : 'text-gray-600 hover:bg-gray-50'
+            "
+            class="flex cursor-pointer items-center justify-between p-3 rounded-xl font-medium transition"
+          >
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-location-dot text-lg"></i>
+              <span>My Addresses</span>
+            </div>
+            <i class="fa-solid fa-chevron-right text-sm"></i>
+          </a>
+
+          <!-- Settings Item -->
+          <a
+            (click)="profilePart.set('setting')"
+            [class]="
+              profilePart() === 'setting'
+                ? 'bg-orange-50 text-main'
+                : 'text-gray-600 hover:bg-gray-50'
+            "
+            class="flex cursor-pointer items-center justify-between p-3 rounded-xl font-medium transition"
+          >
+            <div class="flex items-center gap-3">
+              <i class="fa-solid fa-gear text-lg"></i>
+              <span>Settings</span>
+            </div>
+            <i class="fa-solid fa-chevron-right text-sm"></i>
+          </a>
+        </div>
+
+        <!-- Need Help Card -->
+        <div
+          class="hover:bg-orange-100/50 bg-white transition-all duration-300 rounded-2xl p-5 border border-gray-300 space-y-4"
+        >
+          <div class="flex items-start gap-3">
+            <div
+              class="w-10 h-10 rounded-full bg-orange-100 text-main flex items-center justify-center shrink-0"
+            >
+              <i class="fa-solid fa-headset text-lg"></i>
+            </div>
+            <div>
+              <h4 class="font-bold text-gray-900">Need Help?</h4>
+              <p class="text-xs text-gray-500 mt-1">We're here to help you 24/7</p>
+            </div>
+          </div>
+          <a
+            routerLink="/support"
+            class="inline-flex items-center gap-2 text-sm font-bold text-main hover:text-orange cursor-pointer"
+          >
+            <span>Contact Support</span>
+            <i class="fa-solid fa-arrow-right text-xs"></i>
+          </a>
+        </div>
+      </aside>
+
+      <!-- Main Content Area -->
+      @switch (profilePart()) {
+        @case ('addresses') {
+          <main class="md:col-span-3 space-y-6">
+            <!-- Header Section -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 ms-3">
+              <div>
+                <h1 class="text-2xl font-bold text-gray-900">My Addresses</h1>
+                <p class="text-sm text-gray-500 mt-1">Manage your saved delivery addresses</p>
+              </div>
+              <button
+                (click)="isFormAddressAppear.set(true)"
+                class="bg-main hover:bg-orange hover:transition-all duration-300 cursor-pointer text-white px-5 py-2.5 rounded-xl font-medium text-sm flex items-center justify-center gap-2 shadow-sm transition"
+              >
+                <i class="fa-solid fa-plus text-xs"></i>
+                <span>Add New Address</span>
+              </button>
+            </div>
+
+            <!-- Saved Address Card (Home) -->
+            <div class="flex flex-col gap-3 h-[350px] overflow-auto">
+              @for (address of addressList(); track address._id) {
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 relative">
+                  <div class="flex items-start justify-between">
+                    <div class="flex gap-4">
+                      <!-- Home Icon Container -->
+                      <div
+                        class="w-12 h-12 rounded-2xl bg-orange-50 text-main flex items-center justify-center shrink-0"
+                      >
+                        <i class="fa-solid fa-house text-xl"></i>
+                      </div>
+
+                      <!-- Address Details -->
+                      <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                          <h3 class="font-bold text-gray-900 text-lg">{{ address.name }}</h3>
+                          @if ($first) {
+                            <span
+                              class="bg-orange-100 text-main text-xs px-2.5 py-0.5 rounded-full font-semibold"
+                              >Default</span
+                            >
+                          }
+                        </div>
+                        <p class="text-sm font-medium text-gray-600">{{ address.name }} Address</p>
+                        <p class="text-sm text-gray-500">
+                          {{ address.details }}
+                        </p>
+
+                        <!-- Contact Meta -->
+                        <div class="flex flex-wrap items-center gap-4 text-xs text-gray-500 pt-3">
+                          <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-phone text-gray-400"></i>
+                            <span>{{ address.phone }}</span>
+                          </div>
+                          <span class="text-gray-300">|</span>
+                          <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-city text-gray-400"></i>
+                            <span>{{ address.city }}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div
+                      class="flex items-center justify-end gap-3 mt-4 pt-4 border-t border-gray-50"
+                    >
+                      <button
+                        (click)="edit(address)"
+                        class="px-4 py-1.5 rounded-lg border cursor-pointer border-gray-200 text-gray-700 text-xs font-semibold hover:bg-gray-50 flex items-center gap-1.5 transition"
+                      >
+                        <i class="fa-solid fa-pen text-gray-500"></i>
+                        <span>Edit</span>
+                      </button>
+                      <button
+                        (click)="removeAddress(address._id)"
+                        class="px-4 py-1.5 cursor-pointer rounded-lg border border-red-100 text-red-600 text-xs font-semibold hover:bg-red-50 flex items-center gap-1.5 transition"
+                      >
+                        <i class="fa-solid fa-trash-can"></i>
+                        <span>Delete</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              } @empty {
+                <!-- Empty State / Add Address Box -->
+                <div class="bg-white rounded-2xl p-10 border border-gray-100 text-center space-y-4">
+                  <div
+                    class="w-14 h-14 rounded-full bg-orange-50 text-main flex items-center justify-center mx-auto"
+                  >
+                    <i class="fa-solid fa-box-archive text-2xl"></i>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-gray-900">No more addresses</h4>
+                    <p class="text-xs text-gray-400 mt-1">
+                      You haven't added any other addresses yet.
+                    </p>
+                  </div>
+                </div>
+              }
+            </div>
+          </main>
+        }
+        @case ('setting') {
+          <main class="md:col-span-3 space-y-6">
+            <!-- Header -->
+            <div class="ms-3">
+              <h1 class="text-2xl font-bold text-gray-900">Account Settings</h1>
+              <p class="text-sm text-gray-500 mt-1">
+                Update your profile information and change your password
+              </p>
+            </div>
+
+            <!-- Form Card -->
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 space-y-6">
+              <!-- Card Section Title -->
+              <div class="flex items-center gap-4">
+                <div
+                  class="w-12 h-12 rounded-2xl border border-gray-200 text-main flex items-center justify-center shrink-0"
+                >
+                  <i class="fa-solid fa-user text-lg"></i>
+                </div>
+                <div>
+                  <h3 class="text-base font-bold text-gray-900">Profile Information</h3>
+                  <p class="text-xs text-gray-400 mt-0.5">Update your personal details</p>
+                </div>
+              </div>
+
+              <!-- Form -->
+              <form [formGroup]="profilerForm" (ngSubmit)="profileSubmit()" class="space-y-5 pt-2">
+                <!-- Full Name Input -->
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Full Name</label>
+                  <input
+                    type="text"
+                    formControlName="name"
+                    placeholder="Enter your full name"
+                    class="w-full px-4 py-3 rounded-xl border border-gray-200/80 focus:outline-none focus:border-main focus:ring-0 text-sm text-gray-800 placeholder-gray-400 transition"
+                  />
+                  <app-alert
+                    [formGroup]="profilerForm"
+                    inputName="name"
+                    errorType="minlength"
+                    errorType2="maxlength"
+                  >
+                    <ng-container firstMassage>Full Name is required.</ng-container>
+                    <ng-container secondMassage>Name must be at least 3 characters</ng-container>
+                    <ng-container thirdMassage>Name must be at most 30 characters</ng-container>
+                  </app-alert>
+                </div>
+
+                <!-- Email Address Input -->
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Email Address</label>
+                  <input
+                    type="email"
+                    formControlName="email"
+                    placeholder="Enter your email"
+                    class="w-full px-4 py-3 rounded-xl border border-gray-200/80 focus:outline-none focus:border-main focus:ring-0 text-sm text-gray-800 placeholder-gray-400 transition"
+                  />
+                  <app-alert [formGroup]="profilerForm" inputName="email" errorType="email">
+                    <ng-container firstMassage>Email is required.</ng-container>
+                    <ng-container secondMassage>Please enter a valid email address.</ng-container>
+                  </app-alert>
+                </div>
+
+                <!-- Phone Number Input -->
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Phone Number</label>
+                  <input
+                    type="tel"
+                    formControlName="phone"
+                    placeholder="01xxxxxxxxx"
+                    class="w-full px-4 py-3 rounded-xl border border-gray-200/80 focus:outline-none focus:border-main focus:ring-0 text-sm text-gray-800 placeholder-gray-400 transition"
+                  />
+                  <app-alert [formGroup]="profilerForm" inputName="phone" errorType="pattern">
+                    <ng-container firstMassage>Phone is required.</ng-container>
+                    <ng-container secondMassage
+                      >Enter a valid Egyptian phone number(e.g., 01012345678).</ng-container
+                    >
+                  </app-alert>
+                </div>
+
+                <!-- Save Changes Button -->
+                <div class="pt-3">
+                  <button
+                    type="submit"
+                    class="bg-main hover:bg-orange text-white font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 text-sm cursor-pointer"
+                  >
+                    <i class="fa-solid fa-floppy-disk text-sm"></i>
+                    <span>Save Changes</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+            <!-- Form Card -->
+            <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 space-y-6">
+              <!-- Card Header / Title Section -->
+              <div class="flex items-center gap-4">
+                <div
+                  class="w-12 h-12 rounded-2xl border border-gray-200 text-main flex items-center justify-center shrink-0"
+                >
+                  <i class="fa-solid fa-lock text-lg"></i>
+                </div>
+                <div>
+                  <h3 class="text-base font-bold text-gray-900">Change Password</h3>
+                  <p class="text-xs text-gray-400 mt-0.5">Update your account password</p>
+                </div>
+              </div>
+
+              <!-- Form -->
+              <form [formGroup]="passwordForm" (ngSubmit)="passwordSubmit()" class="space-y-5 pt-2">
+                <!-- Current Password Input -->
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">Current Password</label>
+                  <div class="relative">
+                    <input
+                      type="password"
+                      formControlName="currentPassword"
+                      placeholder="Enter your current password"
+                      class="w-full px-4 py-3 pr-10 rounded-xl border border-gray-200/80 focus:outline-none focus:border-main focus:ring-0 text-sm text-gray-800 placeholder-gray-400 transition"
+                    />
+                  </div>
+                  <app-alert
+                    [formGroup]="passwordForm"
+                    inputName="currentPassword"
+                    errorType="pattern"
+                  >
+                    <ng-container firstMassage>currentPassword is required.</ng-container>
+                    <ng-container secondMassage
+                      >must contain at least 8 chars, 1 uppercase,<br />1 lowercase, 1 number, and 1
+                      special</ng-container
+                    >
+                  </app-alert>
+                </div>
+
+                <!-- New Password Input -->
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700">New Password</label>
+                  <div class="relative">
+                    <input
+                      type="password"
+                      formControlName="password"
+                      placeholder="Enter your new password"
+                      class="w-full px-4 py-3 pr-10 rounded-xl border border-gray-200/80 focus:outline-none focus:border-main focus:ring-0 text-sm text-gray-800 placeholder-gray-400 transition"
+                    />
+                  </div>
+                  <app-alert [formGroup]="passwordForm" inputName="password" errorType="pattern">
+                    <ng-container firstMassage>password is required.</ng-container>
+                    <ng-container secondMassage
+                      >must contain at least 8 chars, 1 uppercase,<br />1 lowercase, 1 number, and 1
+                      special</ng-container
+                    >
+                  </app-alert>
+                </div>
+
+                <!-- Confirm New Password Input -->
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-gray-700"
+                    >Confirm New Password</label
+                  >
+                  <div class="relative">
+                    <input
+                      type="password"
+                      formControlName="rePassword"
+                      placeholder="Confirm your new password"
+                      class="w-full px-4 py-3 pr-10 rounded-xl border border-gray-200/80 focus:outline-none focus:border-main focus:ring-0 text-sm text-gray-800 placeholder-gray-400 transition"
+                    />
+                  </div>
+                  <app-alert [formGroup]="passwordForm" inputName="rePassword" errorType="mismatch">
+                    <ng-container firstMassage>Please confirm your password.</ng-container>
+                    <ng-container secondMassage>Passwords do not match.</ng-container>
+                  </app-alert>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-3">
+                  <button
+                    type="submit"
+                    class="bg-main hover:bg-orange text-white font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transition flex items-center justify-center gap-2 text-sm cursor-pointer"
+                  >
+                    <i class="fa-solid fa-lock text-sm"></i>
+                    <span>Change Password</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </main>
+        }
+      }
+    </div>
+  </div>
+</div>
+<!-- Modal Backdrop -->
+@if (isFormAddressAppear()) {
+  <div class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+    <!-- Modal Card -->
+    <div class="bg-white rounded-3xl w-full max-w-lg p-6 shadow-2xl relative space-y-5">
+      <!-- Modal Header -->
+      <div class="flex items-center justify-between">
+        <h2 class="text-xl font-bold text-gray-900">Add New Address</h2>
+        <button
+          (click)="cancel()"
+          class="w-8 h-8 rounded-full cursor-pointer bg-gray-100 text-gray-500 hover:bg-gray-200 hover:text-gray-700 flex items-center justify-center transition"
+        >
+          <i class="fa-solid fa-xmark text-base"></i>
+        </button>
+      </div>
+
+      <!-- Form -->
+      <form (ngSubmit)="addressSubmit($event)" [formGroup]="addressForm" class="space-y-4">
+        <!-- Address Name Field -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1.5">Address Name</label>
+          <input
+            formControlName="name"
+            type="text"
+            placeholder="e.g. Home, Office"
+            class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-main focus:ring-0 text-sm text-gray-800 placeholder-gray-400 transition"
+          />
+          <app-alert
+            [formGroup]="addressForm"
+            inputName="name"
+            errorType="minlength"
+            errorType2="maxlength"
+          >
+            <ng-container firstMassage>Name is required.</ng-container>
+            <ng-container secondMassage>Name must be at least 1 character</ng-container>
+            <ng-container thirdMassage>Name must be at most 58 characters</ng-container>
+          </app-alert>
+        </div>
+
+        <!-- Full Address Field -->
+        <div>
+          <label class="block text-xs font-semibold text-gray-600 mb-1.5">Full Address</label>
+          <textarea
+            formControlName="details"
+            rows="3"
+            placeholder="Street, building, apartment..."
+            class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-main focus:ring-0 text-sm text-gray-800 placeholder-gray-400 resize-none transition"
+          ></textarea>
+          <app-alert
+            [formGroup]="addressForm"
+            inputName="details"
+            errorType="minlength"
+            errorType2="maxlength"
+          >
+            <ng-container firstMassage>Address is required.</ng-container>
+            <ng-container secondMassage>Address must be at least 10 characters</ng-container>
+            <ng-container thirdMassage>Address must be at most 60 characters</ng-container>
+          </app-alert>
+        </div>
+
+        <!-- Phone & City Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Phone Number -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1.5">Phone Number</label>
+            <input
+              formControlName="phone"
+              type="tel"
+              placeholder="01xxxxxxxx"
+              class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-main focus:ring-0 text-sm text-gray-800 placeholder-gray-400 transition"
+            />
+            <app-alert [formGroup]="addressForm" inputName="phone" errorType="pattern">
+              <ng-container firstMassage>Phone is required.</ng-container>
+              <ng-container secondMassage
+                >Enter a valid Egyptian phone number(e.g., 01012345678).</ng-container
+              >
+            </app-alert>
+          </div>
+
+          <!-- City -->
+          <div>
+            <label class="block text-xs font-semibold text-gray-600 mb-1.5">City</label>
+            <input
+              formControlName="city"
+              type="text"
+              placeholder="Cairo"
+              class="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:outline-none focus:border-main focus:ring-0 text-sm text-gray-800 placeholder-gray-400 transition"
+            />
+            <app-alert
+              [formGroup]="addressForm"
+              inputName="city"
+              errorType="minlength"
+              errorType2="maxlength"
+            >
+              <ng-container firstMassage>City is required.</ng-container>
+              <ng-container secondMassage>City must be at least 1 character</ng-container>
+              <ng-container thirdMassage>City must be at most 58 characters</ng-container>
+            </app-alert>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="grid grid-cols-2 gap-3 pt-3">
+          <button
+            (click)="cancel()"
+            type="button"
+            class="w-full cursor-pointer py-3 rounded-xl bg-gray-50 text-gray-700 font-semibold text-sm hover:bg-gray-100 transition text-center"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="w-full py-3 rounded-xl cursor-pointer bg-main hover:bg-orange text-white font-semibold text-sm shadow-md transition text-center"
+          >
+            {{ isEditAddress() ? 'Add Address' : 'Edit Address' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

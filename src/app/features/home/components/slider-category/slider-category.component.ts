@@ -10,7 +10,7 @@ import { ICategory } from '../../../../core/modules/icategory.interface';
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SliderCategoryComponent implements OnInit {
-  categoryList1=signal<ICategory[]>([]);
+  categoryList=signal<ICategory[]>([]);
   categoryList2=signal<ICategory[]>([]);
   private readonly categoriesService=inject(CategoriesService);
   ngOnInit(): void {
@@ -18,14 +18,21 @@ export class SliderCategoryComponent implements OnInit {
     this.getAllCategories();
     
   }
-  // ngAfterContentInit(): void {
-  //   this.categoryList1.set(this.categoryList2());
+  // ngAfterViewChecked(): void {
+  //   this.categoryList.set(this.categoryList2());
   // }
   getAllCategories(){
     this.categoriesService.getAllCategories().subscribe({
       next: (res) => {
         console.log(res.data,"cat");
-        this.categoryList1.set(res.data);
+        // const repeatedCategoryList:ICategory[]= res.data.map((category:ICategory,index:Number) => ({
+        //   ...category,
+        //  _id : `${res.data.length+index}`
+        // }));
+        this.categoryList.set([...res.data,...res.data]);
+        // this.categoryList().forEach((element,index) => {
+        //   console.log(element._id,index);
+        // });
         // this.categoryList2.set(res.data);
       },
       error: (err) => {

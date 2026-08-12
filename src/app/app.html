@@ -1,3 +1,22 @@
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>
 <app-footer></app-footer>
+
+<!-- <ngx-spinner
+  bdColor="rgba(0, 0, 0, 0.8)"
+  size="medium"
+  color="#fff"
+  type="pacman"
+  [fullScreen]="true"
+  ><p style="color: white">Loading...</p></ngx-spinner
+> -->
+
+<ngx-spinner bdColor="rgba(0, 0, 0, 0.85)" size="medium" [fullScreen]="true">
+  <div class="flex justify-center items-center">
+    <img
+      class="w-[300px] md:w-[450px] object-contain"
+      src="/images/loadingTransperant.png"
+      alt="Loading..."
+    />
+  </div>
+</ngx-spinner>

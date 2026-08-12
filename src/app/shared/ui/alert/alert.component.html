@@ -1,0 +1,19 @@
+@if ((Controller()?.touched || Controller()?.dirty) && Controller()?.invalid) {
+  <div
+    class="flex mx-auto my-0 p-3 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
+    role="alert"
+  >
+    <span class="sr-only">Danger</span>
+    <div>
+      <ul class="list-disc list-outside space-y-1 ps-2.5">
+        @if (Controller()?.hasError('required')) {
+          <li class="[word-spacing:2px]"><ng-content select="[firstMassage]"></ng-content></li>
+        } @else if (Controller()?.hasError(errorType())) {
+          <li><ng-content select="[secondMassage]"></ng-content></li>
+        } @else if (Controller()?.hasError(errorType2())) {
+          <li><ng-content select="[thirdMassage]"></ng-content></li>
+        }
+      </ul>
+    </div>
+  </div>
+}

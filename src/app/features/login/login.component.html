@@ -25,26 +25,11 @@
               ><i class="fa-regular fa-envelope me-1"></i> Email</label
             >
           </div>
-          @let emailControlLogin = loginForm.get('email');
-          @if (
-            (emailControlLogin?.touched || emailControlLogin?.dirty) && emailControlLogin?.invalid
-          ) {
-            <div
-              class="flex mx-auto my-0 p-3 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
-              role="alert"
-            >
-              <span class="sr-only">Danger</span>
-              <div>
-                <ul class="list-disc list-outside space-y-1 ps-2.5">
-                  @if (emailControlLogin?.hasError('required')) {
-                    <li class="[word-spacing:2px]">Email is required.</li>
-                  } @else if (emailControlLogin?.hasError('email')) {
-                    <li>Please enter a valid email address.</li>
-                  }
-                </ul>
-              </div>
-            </div>
-          }
+
+          <app-alert [formGroup]="loginForm" inputName="email" errorType="email">
+            <ng-container firstMassage>Email is required.</ng-container>
+            <ng-container secondMassage>Please enter a valid email address.</ng-container>
+          </app-alert>
         </div>
         <!-- password -->
         <div class="mb-3">
@@ -62,30 +47,13 @@
               ><i class="fa-solid fa-lock"></i> Password</label
             >
           </div>
-          @let passwrdControlLogin = loginForm.get('password');
-          @if (
-            (passwrdControlLogin?.touched || passwrdControlLogin?.dirty) &&
-            passwrdControlLogin?.invalid
-          ) {
-            <div
-              class="flex mx-auto my-0 p-3 text-sm text-fg-danger-strong rounded-base bg-danger-soft border border-danger-subtle"
-              role="alert"
+          <app-alert [formGroup]="loginForm" inputName="password" errorType="pattern">
+            <ng-container firstMassage>password is required.</ng-container>
+            <ng-container secondMassage
+              >must contain at least 8 chars, 1 uppercase,<br />1 lowercase, 1 number, and 1
+              special</ng-container
             >
-              <span class="sr-only">Danger</span>
-              <div>
-                <ul class="list-disc list-outside space-y-1 ps-2.5">
-                  @if (passwrdControlLogin?.hasError('required')) {
-                    <li class="[word-spacing:2px]">password is required.</li>
-                  } @else if (passwrdControlLogin?.hasError('pattern')) {
-                    <li class="text-start">
-                      must contain at least 8 chars, 1 uppercase,<br />1 lowercase, 1 number, and 1
-                      special
-                    </li>
-                  }
-                </ul>
-              </div>
-            </div>
-          }
+          </app-alert>
         </div>
       </div>
       <!-- remember me  //  forget password -->

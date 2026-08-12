@@ -1,1 +1,272 @@
-<p>footer works!</p>
+<footer class="bg-[#0b1329] text-gray-300 py-12 px-6 md:px-12 font-sans">
+  <div
+    class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 divide-y lg:divide-y-0 lg:divide-x divide-gray-800"
+  >
+    <!-- Left Column: Brand Info & Contact -->
+    <div class="lg:col-span-4 pr-0 lg:pr-8 space-y-6">
+      <!-- Logo -->
+      <div class="flex items-center gap-2">
+        <a routerLink="/home" class="bg-white rounded-full">
+          <img
+            src="/images/Logo-transperant.png"
+            alt="Betak"
+            class="w-[100px] aspect-square object-center cursor-pointer"
+          />
+        </a>
+        <span class="text-2xl">Everything You <span class="text-main"> Need...</span> </span>
+      </div>
+
+      <!-- Description -->
+      <p class="text-sm text-gray-400 leading-relaxed">
+        Betak is your one-stop destination for quality products. From fashion to electronics, we
+        bring you the best brands at competitive prices with a seamless shopping experience.
+      </p>
+
+      <!-- Contact Info -->
+      <div class="space-y-3 text-sm">
+        <div class="space-y-3 text-sm">
+          <!-- Phone Link -->
+          <a
+            href="tel:+18001234567"
+            class="flex items-center gap-3 hover:text-orange-500 transition-colors"
+          >
+            <i class="fas fa-phone text-orange-500 w-4"></i>
+            <span>+1 (800) 123-4567</span>
+          </a>
+
+          <!-- Email Link -->
+          <a
+            href="mailto:support@Betak.com"
+            class="flex items-center gap-3 hover:text-orange-500 transition-colors"
+          >
+            <i class="fas fa-envelope text-orange-500 w-4"></i>
+            <span>support@Betak.com</span>
+          </a>
+
+          <!-- Location Link (Opens in Google Maps) -->
+          <a
+            href="https://maps.google.com/?q=123+Commerce+Street,+New+York,+NY+10001"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="flex items-start gap-3 hover:text-orange-500 transition-colors"
+          >
+            <i class="fas fa-map-marker-alt text-orange-500 w-4 mt-1"></i>
+            <span>123 Commerce Street,<br />New York, NY 10001</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Social Links -->
+      <div class="flex items-center gap-3 pt-2">
+        <a
+          class="w-9 h-9 rounded-full bg-slate-800/80 hover:bg-orange-500 flex items-center justify-center text-gray-300 hover:text-white transition-colors"
+        >
+          <i class="fab fa-facebook-f text-sm"></i>
+        </a>
+        <a
+          class="w-9 h-9 rounded-full bg-slate-800/80 hover:bg-orange-500 flex items-center justify-center text-gray-300 hover:text-white transition-colors"
+        >
+          <i class="fab fa-twitter text-sm"></i>
+        </a>
+        <a
+          class="w-9 h-9 rounded-full bg-slate-800/80 hover:bg-orange-500 flex items-center justify-center text-gray-300 hover:text-white transition-colors"
+        >
+          <i class="fab fa-instagram text-sm"></i>
+        </a>
+        <a
+          class="w-9 h-9 rounded-full bg-slate-800/80 hover:bg-orange-500 flex items-center justify-center text-gray-300 hover:text-white transition-colors"
+        >
+          <i class="fab fa-youtube text-sm"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Columns Container -->
+    <div class="lg:col-span-8 pt-8 lg:pt-0 lg:pl-8 grid grid-cols-2 sm:grid-cols-4 gap-6">
+      <!-- Column 2: Account -->
+      <div>
+        <h3 class="text-white font-semibold text-base mb-2">Account</h3>
+        <div class="w-8 h-0.5 bg-orange-500 mb-4"></div>
+        <ul class="space-y-3 text-sm text-gray-400">
+          <li>
+            <a
+              routerLink="/profile"
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >My Account
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+          <li>
+            <a
+              routerLink="/allorders"
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >Order History
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+          <li>
+            <a
+              routerLink="/wishlist"
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >Wishlist
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+          <li>
+            <a
+              routerLink="/cart"
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >Shopping Cart
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+          <li>
+            <a
+              routerLink="/login"
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >Sign In
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+          <li>
+            <a
+              routerLink="/register"
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >Create Account
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Support -->
+      <div>
+        <h3 class="text-white font-semibold text-base mb-2">Support</h3>
+        <div class="w-8 h-0.5 bg-orange-500 mb-4"></div>
+        <ul class="space-y-3 text-sm text-gray-400">
+          <li>
+            <a
+              routerLink="/support"
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >Contact Us
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+          <li>
+            <a
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >Help Center
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+          <li>
+            <a
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >Shipping Info
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+          <li>
+            <a
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >Returns & Refunds
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+          <li>
+            <a
+              routerLink="/allorders"
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >Track Order
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Legal -->
+      <div>
+        <h3 class="text-white font-semibold text-base mb-2">Legal</h3>
+        <div class="w-8 h-0.5 bg-orange-500 mb-4"></div>
+        <ul class="space-y-3 text-sm text-gray-400">
+          <li>
+            <a
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >Privacy Policy
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+          <li>
+            <a
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >Terms of Service
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+          <li>
+            <a
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >Cookie Policy
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+        </ul>
+      </div>
+      <!-- Column 1: Shop -->
+      <div>
+        <h3 class="text-white font-semibold text-base mb-2">Shop</h3>
+        <div class="w-8 h-0.5 bg-orange-500 mb-4"></div>
+        <ul class="space-y-3 text-sm text-gray-400">
+          <li>
+            <a
+              routerLink="/shop"
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >All Products
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+          <li>
+            <a
+              routerLink="/brands"
+              class="hover:text-orange-500 flex items-center justify-between group transition-colors"
+              >Brands
+              <i
+                class="fas fa-chevron-right text-[10px] text-orange-500 opacity-80 group-hover:translate-x-1 transition-transform"
+              ></i
+            ></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>

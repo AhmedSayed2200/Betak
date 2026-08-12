@@ -4,10 +4,11 @@ import { initFlowbite } from 'flowbite';
 import { Router, RouterLink } from "@angular/router";
 import { AbstractControl, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../core/Auth/services/auth.service';
+import { AlertComponent } from '../../shared/ui/alert/alert.component';
 
 @Component({
   selector: 'app-register',
-  imports: [RouterLink, ReactiveFormsModule],
+  imports: [RouterLink, ReactiveFormsModule,AlertComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
 })
@@ -25,7 +26,7 @@ export class RegisterComponent implements OnInit {
   }
   
   registerForm: FormGroup = this.fb.group({
-    name: ["", [Validators.required, Validators.minLength(3)]],
+    name: ["", [Validators.required, Validators.minLength(3),Validators.maxLength(30)]],
     email: ["", [Validators.required, Validators.email]],
     password: ["", [Validators.required, Validators.pattern(/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/)]],
     rePassword: ["", [Validators.required]],

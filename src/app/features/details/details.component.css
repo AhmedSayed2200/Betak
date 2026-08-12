@@ -1,0 +1,21 @@
+swiper-container::part(button-next),
+swiper-container::part(button-prev) {
+  color: transparent;
+}
+
+.mySwiper2 swiper-slide {
+  border: 2px solid transparent;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.mySwiper2 swiper-slide.swiper-slide-thumb-active {
+  opacity: 1;
+  border-color: var(--color-main);
+}
+.mySwiper2 swiper-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

@@ -1,1 +1,146 @@
-<p>orders works!</p>
+<section class="container m-auto">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <app-header>
+      <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+        My
+        <span class="bg-gradient-to-r from-main to-orange bg-clip-text text-transparent">
+          Orders
+        </span>
+      </h2>
+      <p class="text-xs sm:text-sm text-slate-500 mt-1">Track and manage your orders.</p>
+    </app-header>
+    <a class="text-sm ml-auto w-fit text-main hover:text-orange cursor-pointer" routerLink="/shop">
+      <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+    </a>
+  </div>
+
+  @for (order of ordersList(); track order._id) {
+    <div
+      class="border border-gray-300 group/main cursor-pointer transition-all duration-300 rounded-[.625rem] p-3 shadow-sm hover:shadow-lg hover:-translate-y-[.625rem] mt-[1.5625rem]"
+    >
+      <div class="lg:flex lg:justify-between lg:items-center block">
+        <div class="flex gap-3">
+          <div class="overflow-hidden">
+            <img
+              [src]="order.cartItems[0].product.imageCover"
+              class="w-[6.25rem] rounded-[.625rem] object-cover group-hover/main:rotate-360 group-hover/main:scale-120 transition-all duration-300"
+              alt="your orders"
+            />
+          </div>
+          <div
+            class="flex flex-col gap-1 mt-[.625rem] group-hover/main:ms-3 transition-all duration-300"
+          >
+            <h2 class="text-2xl font-bold">Order #{{ order.id }}</h2>
+            <div>
+              <span class="text-sm text-body me-3"
+                ><i class="fa-regular fa-calendar-days"></i>
+                {{ order.createdAt | date: 'MMM d, y' }}</span
+              >
+              <span class="text-sm text-body"
+                ><i class="fa-solid fa-location-dot"></i> {{ order.shippingAddress.city }}</span
+              >
+            </div>
+            <span class="text-[1rem] font-sm">
+              Payment: {{ order.paymentMethodType }}
+              <span class="text-sm text-body font-medium"></span
+            ></span>
+            <div class="flex gap-2 items-center">
+              <span class="text-[1rem] font-medium">
+                {{ order.totalOrderPrice | currency: 'EGP' }}
+                <span class="text-sm text-body font-medium"></span
+              ></span>
+              <span class="text-sm font-medium mt-1 text-black/70">
+                <i class="fa-solid fa-bag-shopping"></i>
+                {{ calcCountItems(order.cartItems) }} items</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="flex lg:flex-col flex-row gap-3 items-center justify-between lg:justify-start">
+          <div class="flex justify-between gap-2 order-first lg:order-0">
+            @if (order.isDelivered) {
+              <span
+                class="bg-green-100 text-green-700 p-2 hover:bg-green-200 transition-all duration-500 group rounded-[.625rem] inline-flex items-center gap-2"
+              >
+                <i class="fa-regular fa-circle-check"></i> Delivered
+              </span>
+            } @else if (order.isPaid) {
+              <span
+                class="bg-orange-100 text-orange-700 p-2 hover:bg-orange-200 transition-all duration-500 group rounded-[.625rem] inline-flex items-center gap-2"
+              >
+                <i class="fa-solid fa-truck-fast"></i> Shipped
+              </span>
+            } @else {
+              <span
+                class="bg-blue-100 text-blue-700 p-2 hover:bg-blue-200 transition-all duration-500 group rounded-[.625rem] inline-flex items-center gap-2"
+              >
+                <i class="fa-regular fa-clock"></i> Processing
+              </span>
+            }
+          </div>
+          <div class="order-first lg:order-0">
+            <button
+              (click)="order.isDetailsAppear = !order.isDetailsAppear"
+              class="text-sm hover:text-orange cursor-pointer transition-all duration-300 p-2 border border-gray-200 hover:bg-gray-100 hover:shadow-lg rounded-[.625rem]"
+            >
+              View details
+              <i
+                [class]="order.isDetailsAppear ? 'rotate-180' : ''"
+                class="fa-solid fa-chevron-down transition-all duration-300"
+              ></i>
+            </button>
+          </div>
+        </div>
+      </div>
+      @if (order.isDetailsAppear) {
+        <div class="w-[95%] m-auto">
+          <hr class="border-t border-gray-300 my-4" />
+
+          @for (item of order.cartItems; track $index) {
+            <div
+              class="lg:flex lg:justify-between lg:items-center block border border-gray-300 group/item hover:bg-gray-200 cursor-pointer transition-all duration-300 rounded-[.625rem] p-3 shadow-sm hover:shadow-lg hover:-translate-y-[.625rem] mt-[1.25rem]"
+            >
+              <div class="flex gap-3">
+                <div class="overflow-hidden">
+                  <img
+                    [src]="item.product.imageCover"
+                    class="w-[6.25rem] rounded-[.625rem] object-cover group-hover/item:rotate-360 group-hover/item:scale-120 transition-all duration-300"
+                    [alt]="item.product.title"
+                  />
+                </div>
+                <div
+                  class="flex flex-col gap-1 mt-[.625rem] group-hover/item:ms-3 transition-all duration-300"
+                >
+                  <h2 class="text-2xl font-bold">{{ item.product.title }}</h2>
+                  <div>
+                    <span class="text-sm text-body me-3">{{ item.product.brand.name }}</span>
+                    <span class="text-sm text-body">{{ item.product.category.name }}</span>
+                  </div>
+                  <span class="text-lg font-bold">
+                    {{ item.price | currency: 'EGP' }}
+                    <span class="text-sm text-body font-medium">per unit</span></span
+                  >
+                </div>
+              </div>
+              <div
+                class="flex lg:flex-col flex-row gap-3 items-center justify-between lg:justify-start"
+              >
+                <div class="flex justify-between gap-2 order-first lg:order-0">
+                  <span class="bg-main p-2 transition-all duration-500 group rounded-[.625rem]"
+                    ><i class="fa-solid fa-bag-shopping me-1 text-black/80"></i
+                    >{{ item.count }} items</span
+                  >
+                </div>
+                <div class="order-first lg:order-0">
+                  <span class="text-lg lg:font-medium font-bold"
+                    >Total: {{ item.count * item.price | currency: '' : '' : '1.0-2' }} EGP
+                  </span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+</section>

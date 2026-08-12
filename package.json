@@ -24,6 +24,9 @@
     "aos": "^2.3.4",
     "express": "^5.1.0",
     "flowbite": "^4.0.2",
+    "ngx-pagination": "^6.0.3",
+    "ngx-spinner": "^21.1.0",
+    "ngx-toastr": "^20.0.5",
     "rxjs": "~7.8.0",
     "swiper": "^14.0.7",
     "tslib": "^2.3.0"

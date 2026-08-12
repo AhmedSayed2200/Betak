@@ -1,1 +1,248 @@
-<p>checkout works!</p>
+<section>
+  <div class="max-w-6xl pt-10 mx-auto">
+    <!-- ? ------------- header information  -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+      <app-header>
+        <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+          Complete
+          <span class="bg-gradient-to-r from-main to-orange bg-clip-text text-transparent">
+            Order
+          </span>
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1">
+          Review your items and complete your purchase.
+        </p>
+      </app-header>
+      <a
+        routerLink="/cart"
+        class="text-main hover:text-orange cursor-pointer font-medium flex items-center gap-2 transition-colors"
+      >
+        <i class="fa-solid fa-arrow-left-long"></i>
+        Back to Cart
+      </a>
+    </div>
+
+    <!-- ? ------------- Form   -->
+    <div class="space-y-6">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <div class="p-6">
+          <form (ngSubmit)="checkoutSubmit()" [formGroup]="checkoutForm" class="space-y-5">
+            <div formGroupName="shippingAddress" class="flex flex-col gap-5 w-full">
+              <!-- city  -->
+              <div>
+                <label for="city" class="block mb-2 text-sm font-medium text-gray-900"
+                  >City <span class="text-red-500">*</span></label
+                >
+                <div class="relative">
+                  <div
+                    class="absolute inset-y-0 inset-s-0 flex items-center ps-3.5 pointer-events-none text-gray-400"
+                  >
+                    <i class="fa-solid fa-city"></i>
+                  </div>
+                  <input
+                    type="text"
+                    id="city"
+                    list="citiesList"
+                    (change)="displayAddress($event)"
+                    class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-500 focus:border-brand-500 block w-full ps-10 p-3"
+                    placeholder="e.g. Cairo, Alexandria, Giza"
+                    formControlName="city"
+                  />
+                  <datalist id="citiesList">
+                    <option value="Your Stored Addresses :"></option>
+                    @for (address of addressList(); track address._id) {
+                      <option [value]="address.name"></option>
+                    }
+                  </datalist>
+                </div>
+                <app-alert
+                  [formGroup]="checkoutForm"
+                  inputName="shippingAddress.city"
+                  errorType="minlength"
+                  errorType2="maxlength"
+                >
+                  <ng-container firstMassage>City is required.</ng-container>
+                  <ng-container secondMassage>City must be at least 1 character</ng-container>
+                  <ng-container thirdMassage>City must be at most 58 characters</ng-container>
+                </app-alert>
+              </div>
+
+              <!-- Street Address   -->
+
+              <div>
+                <label for="address" class="block mb-2 text-sm font-medium text-gray-900"
+                  >Street Address <span class="text-red-500">*</span></label
+                >
+                <div class="relative">
+                  <div
+                    class="absolute inset-y-0 inset-s-0 flex items-start pt-3.5 ps-3.5 pointer-events-none text-gray-400"
+                  >
+                    <i class="fa-solid fa-location-dot"></i>
+                  </div>
+                  <textarea
+                    id="address"
+                    rows="3"
+                    class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-500 focus:border-brand-500 block w-full ps-10 p-3"
+                    placeholder="Street name, building number, floor, apartment..."
+                    formControlName="details"
+                  ></textarea>
+                </div>
+                <app-alert
+                  [formGroup]="checkoutForm"
+                  inputName="shippingAddress.details"
+                  errorType="minlength"
+                  errorType2="maxlength"
+                >
+                  <ng-container firstMassage>Address is required.</ng-container>
+                  <ng-container secondMassage>Address must be at least 10 characters</ng-container>
+                  <ng-container thirdMassage>Address must be at most 60 characters</ng-container>
+                </app-alert>
+              </div>
+              <!-- phone  -->
+
+              <div>
+                <label for="phone" class="block mb-2 text-sm font-medium text-gray-900"
+                  >Phone Number <span class="text-red-500">*</span></label
+                >
+                <div class="relative">
+                  <div
+                    class="absolute inset-y-0 inset-s-0 flex items-center ps-3.5 pointer-events-none text-gray-400"
+                  >
+                    <i class="fa-solid fa-phone"></i>
+                  </div>
+                  <input
+                    type="tel"
+                    id="phone"
+                    class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-brand-500 focus:border-brand-500 block w-full ps-10 p-3"
+                    placeholder="01xxxxxxxxx"
+                    formControlName="phone"
+                  />
+                  <div class="absolute inset-y-0 end-0 flex items-center pe-3 pointer-events-none">
+                    <span class="text-xs text-gray-400">Egyptian numbers only</span>
+                  </div>
+                </div>
+                <app-alert
+                  [formGroup]="checkoutForm"
+                  inputName="shippingAddress.phone"
+                  errorType="pattern"
+                >
+                  <ng-container firstMassage>Phone is required.</ng-container>
+                  <ng-container secondMassage
+                    >Enter a valid Egyptian phone number(e.g., 01012345678).</ng-container
+                  >
+                </app-alert>
+              </div>
+
+              <button
+                type="submit"
+                class="group cursor-pointer relative flex w-full items-center justify-center gap-2 rounded-xl bg-main px-6 py-3.5 text-lg font-bold text-white shadow-lg transition-all duration-300 hover:bg-orange hover:shadow-xl focus:ring-0"
+              >
+                <i
+                  class="fa-solid fa-shield-halved text-white transition-transform group-hover:scale-110"
+                ></i>
+
+                <span>Proceed to Payment</span>
+              </button>
+
+              <div class="p-6 rounded-2xl border border-gray-200">
+                <!-- Header -->
+                <div class="flex items-center gap-4 mb-6">
+                  <div
+                    class="w-12 h-12 rounded-xl bg-orange-100/60 text-orange flex items-center justify-center text-xl border border-orange/50"
+                  >
+                    <i class="fa-regular fa-credit-card"></i>
+                  </div>
+                  <div>
+                    <h3 class="text-lg font-bold text-slate-800">Payment Method</h3>
+                    <p class="text-sm text-slate-500">Choose how you want to pay</p>
+                  </div>
+                </div>
+
+                <!-- Cards Container -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <!-- Option 1: Cash on Delivery -->
+                  <label
+                    class="relative flex flex-col h-fit bg-white border-2 border-gray-200 rounded-2xl cursor-pointer transition-all duration-200 shadow-sm select-none has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50/30"
+                  >
+                    <!-- Native Radio Input -->
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="cash"
+                      checked
+                      class="peer sr-only"
+                    />
+
+                    <!-- Top Right Checkmark Badge -->
+                    <div
+                      class="absolute top-4 right-4 w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center text-xs hidden peer-checked:flex"
+                    >
+                      <i class="fa-solid fa-check"></i>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="mt-2 py-3 px-4 flex flex-col">
+                      <div
+                        class="flex mb-3 text-slate-700 peer-checked:text-orange-500 transition-colors"
+                      >
+                        <i class="fa-solid text-lg fa-money-bill-wave mt-1 me-1"></i>
+                        <h4 class="font-bold text-slate-800 self-start">Cash on Delivery</h4>
+                      </div>
+
+                      <p class="text-xs text-slate-500">
+                        Pay in cash when your order arrives at your doorstep
+                      </p>
+                    </div>
+                  </label>
+
+                  <!-- Option 2: Pay with Card -->
+                  <label
+                    class="relative flex flex-col h-fit bg-white border-2 border-gray-200 rounded-2xl cursor-pointer transition-all duration-200 shadow-sm select-none has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50/30"
+                  >
+                    <!-- Native Radio Input -->
+                    <input type="radio" name="paymentMethod" value="card" class="peer sr-only" />
+
+                    <!-- Top Right Checkmark Badge -->
+                    <div
+                      class="absolute top-4 right-4 w-5 h-5 rounded-full bg-orange-500 text-white flex items-center justify-center text-xs hidden peer-checked:flex"
+                    >
+                      <i class="fa-solid fa-check"></i>
+                    </div>
+
+                    <!-- Content -->
+                    <div class="mt-2 py-3 px-4 flex flex-col">
+                      <div
+                        class="mb-3 flex text-slate-700 peer-checked:text-orange-500 transition-colors"
+                      >
+                        <i class="fa-regular fa-credit-card text-lg mt-1 me-1"></i>
+                        <h4 class="font-bold text-slate-800 text-base">Pay with Card</h4>
+                      </div>
+                      <div class="flex justify-between">
+                        <p class="text-xs text-slate-500">Pay securely online using your card</p>
+                        <div class="flex self-start gap-2 -mt-3.5">
+                          <img
+                            alt="Visa"
+                            class="h-8"
+                            src="https://img.icons8.com/color/48/visa.png"
+                          /><img
+                            alt="Mastercard"
+                            class="h-8"
+                            src="https://img.icons8.com/color/48/mastercard.png"
+                          /><img
+                            alt="Amex"
+                            class="h-8"
+                            src="https://img.icons8.com/color/48/amex.png"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

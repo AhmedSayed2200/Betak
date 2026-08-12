@@ -1,112 +1,139 @@
-<div class="container mx-auto mt-[50px]">
-  <app-header>
-    <h2 class="text-3xl font-bold tracking-tight text-slate-900">
-      Featured
-      <span class="bg-gradient-to-r from-main to-orange bg-clip-text text-transparent">
-        Picks
-      </span>
-    </h2>
-    <p class="text-sm text-slate-500 mt-1">A selection of our best products</p>
-  </app-header>
-  <div class="flex flex-wrap">
-    @for (product of productList(); track product._id) {
-      <div class="p-1 md:p-2 w-1/2 md:w-1/3 lg:w-1/5">
-        <div
-          class="bg-white border border-gray-300 rounded-[.9375rem] p-4 shadow-sm hover:shadow-2xl transition-all duration-300 hover:translate-y-[-0.625rem] group"
-        >
-          <div class="relative overflow-hidden mb-4">
-            <img
-              [src]="product.imageCover"
-              [alt]="product.title"
-              class="w-full h-auto object-contain hover:scale-120 transition-all duration-300 hover:rotate-360"
-            />
-            @if (product.priceAfterDiscount) {
-              <div
-                class="absolute top-0 left-0 bg-red-500 p-1.5 rounded-[.4375rem] text-white text-xs"
-              >
-                -{{ calcDiscount(product.price, product.priceAfterDiscount) }}%
-              </div>
-            }
-            <!--  ! ----------- Icons  Heart ! ----------- ....  -->
+<section class="flex flex-wrap">
+  @for (
+    product of productList()
+      | paginate
+        : { id: 'foo', itemsPerPage: pageLimit(), currentPage: currentPage(), totalItems: total() };
+    track product._id;
+    let i = $index
+  ) {
+    <div class="p-1 md:p-2 w-1/2 md:w-1/3 lg:w-1/5">
+      <div
+        class="bg-white border border-gray-300 rounded-[.9375rem] p-4 shadow-sm hover:shadow-2xl transition-all duration-300 hover:translate-y-[-0.625rem] group"
+      >
+        <div class="relative overflow-hidden mb-4">
+          <img
+            [src]="product.imageCover"
+            [alt]="product.title"
+            class="w-full h-auto object-contain hover:scale-120 transition-all duration-300 hover:rotate-360"
+          />
+          @if (product.priceAfterDiscount) {
             <div
-              class="absolute top-2 right-0 translate-x-full group-hover:translate-x-0 transition-all duration-300 flex flex-col gap-2"
+              class="absolute top-0 left-0 bg-red-500 p-1.5 rounded-[.4375rem] text-white text-xs"
             >
-              <button
-                class="w-10 h-10 bg-white shadow-sm border border-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-orange hover:text-white transition-all duration-300"
-              >
-                <i class="far fa-heart"></i>
-              </button>
-
-              <button
-                class="w-10 h-10 bg-white shadow-sm border border-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-orange hover:text-white transition-all duration-300"
-              >
-                <i class="fas fa-sync-alt"></i>
-              </button>
-
-              <button
-                [routerLink]="['/details', product.slug, product._id]"
-                class="w-10 h-10 bg-white shadow-sm border border-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-orange hover:text-white transition-all duration-300"
-              >
-                <i class="far fa-eye"></i>
-              </button>
+              -{{ calcDiscount(product.price, product.priceAfterDiscount) }}%
             </div>
+          }
+          <!--  ! ----------- Icons  Heart ! ----------- ....  -->
+          <div
+            class="absolute top-2 right-0 translate-x-full group-hover:translate-x-0 transition-all duration-300 flex flex-col gap-2"
+          >
+            <button
+              (click)="addOrRemovewishList(product._id)"
+              class="w-10 h-10 cursor-pointer bg-white shadow-sm border border-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-orange hover:text-white transition-all duration-300"
+            >
+              @if (product.isLiked) {
+                <i class="fas fa-heart text-danger"></i>
+              } @else {
+                <i class="far fa-heart"></i>
+              }
+            </button>
+
+            <button
+              (click)="changeImg(product)"
+              class="w-10 h-10 cursor-pointer bg-white shadow-sm border border-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-orange hover:text-white transition-all duration-300"
+            >
+              <i class="fas fa-sync-alt"></i>
+            </button>
+
+            <button
+              [routerLink]="['/details', product.slug, product._id]"
+              class="w-10 h-10 cursor-pointer bg-white shadow-sm border border-gray-100 rounded-full flex items-center justify-center text-gray-600 hover:bg-orange hover:text-white transition-all duration-300"
+            >
+              <i class="far fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="space-y-1">
+          <div class="flex justify-between">
+            <span class="md:text-xs text-[.625rem] text-gray-400">{{ product.brand.name }}</span>
+            <span class="md:text-xs text-[.625rem] text-gray-400">{{ product.category.name }}</span>
           </div>
 
-          <div class="space-y-1">
-            <div class="flex justify-between">
-              <span class="md:text-xs text-[.625rem] text-gray-400">{{ product.brand.name }}</span>
-              <span class="md:text-xs text-[.625rem] text-gray-400">{{
-                product.category.name
-              }}</span>
-            </div>
+          <h3
+            [routerLink]="['/details', product.slug, product._id]"
+            class="text-lg text-slate-800 line-clamp-1 hover:text-orange cursor-pointer transition-colors"
+          >
+            {{ product.title }}
+          </h3>
 
-            <h3
-              [routerLink]="['/details', product.slug, product._id]"
-              class="text-lg text-slate-800 line-clamp-1 hover:text-orange cursor-pointer transition-colors"
+          <div class="flex items-center gap-1">
+            <div class="flex text-yellow-400 text-xs gap-0.5">
+              @for (star of stars; track star) {
+                @if (product.ratingsAverage >= star) {
+                  <i class="fas fa-star text-yellow-400"></i>
+                } @else if (product.ratingsAverage >= star - 0.5) {
+                  <i class="fas fa-star-half-alt text-yellow-400"></i>
+                } @else {
+                  <i class="far fa-star text-gray-300"></i>
+                }
+              }
+            </div>
+            <span class="text-xs text-gray-400 font-medium">
+              {{ product.ratingsAverage }} ({{ product.ratingsQuantity }})</span
             >
-              {{ product.title }}
-            </h3>
+          </div>
 
-            <div class="flex items-center gap-1">
-              <div class="flex text-yellow-400 text-xs gap-0.5">
-                @for (star of stars; track star) {
-                  @if (product.ratingsAverage >= star) {
-                    <i class="fas fa-star text-yellow-400"></i>
-                  } @else if (product.ratingsAverage >= star - 0.5) {
-                    <i class="fas fa-star-half-alt text-yellow-400"></i>
-                  } @else {
-                    <i class="far fa-star text-gray-300"></i>
-                  }
-                }
-              </div>
-              <span class="text-xs text-gray-400 font-medium">
-                {{ product.ratingsAverage }} ({{ product.ratingsQuantity }})</span
-              >
+          <div class="flex items-center justify-between pt-2">
+            <div>
+              <span class="md:text-[1rem] text-[.625rem] font-medium text-slate-900">{{
+                product.priceAfterDiscount
+                  ? (product.priceAfterDiscount | currency: 'EGP')
+                  : (product.price | currency: 'EGP')
+              }}</span>
+              @if (product.priceAfterDiscount) {
+                <span class="md:text-[.625rem] text-[.5rem] text-gray-500 ps-1 line-through"
+                  >{{ product.price }} EGP</span
+                >
+              }
             </div>
 
-            <div class="flex items-center justify-between pt-2">
-              <div>
-                <span class="md:text-lg text-sm font-medium text-slate-900">{{
-                  product.priceAfterDiscount
-                    ? (product.priceAfterDiscount | currency: 'EGP')
-                    : (product.price | currency: 'EGP')
-                }}</span>
-                @if (product.priceAfterDiscount) {
-                  <span class="md:text-[.625rem] text-[.5rem] text-gray-500 ps-1 line-through"
-                    >{{ product.price }} EGP</span
-                  >
-                }
-              </div>
-
-              <button
-                class="md:w-10 md:h-10 w-7 h-7 bg-main text-white rounded-full flex items-center justify-center hover:bg-orange transition-colors duration-300 shadow-sm cursor-pointer"
-              >
-                <i class="fas fa-plus"></i>
-              </button>
-            </div>
+            <button
+              (click)="addProductToCart(product._id)"
+              class="md:w-10 md:h-10 w-7 h-7 bg-main text-white rounded-full flex items-center justify-center hover:bg-orange transition-colors duration-300 shadow-sm cursor-pointer"
+            >
+              <i class="fas fa-plus"></i>
+            </button>
           </div>
         </div>
       </div>
-    }
+    </div>
+  } @empty {
+    <div class="flex flex-col w-full h-full justify-center items-center gap-3 text-center px-4">
+      <img
+        src="/images/productListempty.png"
+        class="w-48 sm:w-[18.75rem] object-cover"
+        alt="empty wishlist"
+      />
+      <h1 class="text-lg sm:text-xl font-bold">NO product found</h1>
+      <p class="text-sm sm:text-base">We couldn't find any products that match your filters.</p>
+    </div>
+  }
+</section>
+@if (isShopPage()) {
+  <div class="w-fit m-auto">
+    <pagination-controls
+      id="foo"
+      (pageChange)="pageChanged($event)"
+      [directionLinks]="true"
+      [autoHide]="true"
+      [responsive]="true"
+      previousLabel="Previous"
+      nextLabel="Next"
+      screenReaderPaginationLabel="Pagination"
+      screenReaderPageLabel="page"
+      screenReaderCurrentLabel="You're on page"
+    >
+    </pagination-controls>
   </div>
-</div>
+}

@@ -1,1 +1,178 @@
-<p>cart works!</p>
+<section class="mx-[1.25rem] px-4">
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <app-header>
+      <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+        My
+        <span class="bg-gradient-to-r from-main to-orange bg-clip-text text-transparent">
+          Cart
+        </span>
+      </h2>
+      <p class="text-xs sm:text-sm text-slate-500 mt-1">Everything you're ready to take home.</p>
+    </app-header>
+    <button
+      (click)="clearAll()"
+      class="p-2 sm:p-3 self-end sm:self-center border cursor-pointer transition-all duration-700 group hover:bg-danger hover:text-white border-gray-300 rounded-[.625rem] text-sm sm:text-base"
+    >
+      Clear Cart
+      <i class="fas fa-trash text-danger group-hover:text-white transition-all duration-700"></i>
+    </button>
+  </div>
+  <!-- cards -->
+
+  <div class="sm:flex gap-5">
+    <div class="flex-1 overflow-auto h-[28.125rem] pe-2">
+      @for (item of cartDetails().products; track item._id) {
+        <div
+          class="lg:flex lg:justify-between lg:items-center block border border-gray-300 group/main hover:bg-gray-200 cursor-pointer transition-all duration-300 rounded-[.625rem] p-3 shadow-sm hover:shadow-lg hover:-translate-y-[.625rem] mt-[1.25rem]"
+        >
+          <div class="flex gap-3">
+            <div class="overflow-hidden">
+              <img
+                [src]="item.product.imageCover"
+                class="w-[6.25rem] rounded-[.625rem] object-cover group-hover/main:rotate-360 group-hover/main:scale-120 transition-all duration-300"
+                [alt]="item.product.title"
+              />
+            </div>
+            <div
+              class="flex flex-col gap-1 mt-[.625rem] group-hover/main:ms-3 transition-all duration-300"
+            >
+              <h2 class="text-2xl font-bold">{{ item.product.title }}</h2>
+              <div>
+                <span class="text-sm text-body me-3">{{ item.product.brand.name }}</span>
+                <span class="text-sm text-body">{{ item.product.category.name }}</span>
+              </div>
+              <span class="text-lg font-bold">
+                {{ item.price | currency: 'EGP' }}
+                <span class="text-sm text-body font-medium">per unit</span></span
+              >
+            </div>
+          </div>
+          <div
+            class="flex lg:flex-col flex-row gap-3 items-center justify-between lg:justify-start"
+          >
+            <div class="flex justify-between gap-2 order-first lg:order-0">
+              <div
+                class="flex justify-between items-center w-fit gap-2 border border-gray-300 rounded-[.625rem]"
+              >
+                <button
+                  (click)="UpdateCartProductQuantity(item.product._id, item.count + 1)"
+                  class="p-2 hover:bg-gray-100 rounded-[.625rem] cursor-pointer"
+                >
+                  <i class="fa-solid fa-circle-plus text-2xl text-orange"></i>
+                </button>
+                <span class="text-lg">{{ item.count }}</span>
+                <button
+                  (click)="UpdateCartProductQuantity(item.product._id, item.count - 1)"
+                  class="p-2 hover:bg-gray-100 rounded-[.625rem] cursor-pointer"
+                >
+                  <i class="fa-solid fa-circle-minus text-2xl text-danger"></i>
+                </button>
+              </div>
+              <span
+                (click)="removeProductFromCart(item.product._id)"
+                class="bg-red-100 p-2 hover:bg-danger transition-all duration-500 group rounded-[.625rem]"
+                ><i
+                  class="fas fa-trash text-danger group-hover:text-white transition-all duration-500"
+                ></i
+              ></span>
+            </div>
+            <div class="order-first lg:order-0">
+              <span class="text-lg lg:font-medium font-bold"
+                >Total: {{ item.count * item.price | currency: '' : '' : '1.0-2' }} EGP
+              </span>
+            </div>
+          </div>
+        </div>
+      } @empty {
+        <div class="flex flex-col justify-center items-center gap-3 text-center px-4">
+          <img
+            src="/images/cartlistempty.jpg"
+            class="w-48 sm:w-[18.75rem] object-cover"
+            alt="empty wishlist"
+          />
+          <h1 class="text-lg sm:text-xl font-bold">Your cart is empty</h1>
+          <p class="text-sm sm:text-base">
+            Looks like you haven't saved anything yet. Start exploring and add your favorites!
+          </p>
+          <button
+            routerLink="/shop"
+            class="p-2 rounded-[10px] bg-main hover:bg-orange cursor-pointer text-white text-sm sm:text-base"
+          >
+            <i class="fas fa-shopping-cart"></i> Start shopping
+          </button>
+        </div>
+      }
+    </div>
+    <div
+      class="sm:w-[45%] lg:w-[30%] h-full bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden mt-5"
+    >
+      <div class="bg-orange px-6 py-4">
+        <h2 class="text-xl font-bold text-white tracking-wide">Order Summary</h2>
+      </div>
+
+      <div class="p-6 space-y-5">
+        <!-- Subtotal -->
+        <div class="flex items-center justify-between text-slate-500 font-medium">
+          <span>Subtotal ({{ cartDetails().products.length }} items)</span>
+          <span class="text-slate-900 font-bold"
+            >{{ cartDetails().totalCartPrice | currency: '' : '' : '1.0-2' }} EGP</span
+          >
+        </div>
+        <!-- Shipping -->
+        <div class="flex items-center justify-between text-slate-500 font-medium">
+          <span>Shipping</span>
+          <span class="text-slate-900">Calculated at checkout</span>
+        </div>
+
+        <hr class="border-slate-100 my-2" />
+        <div class="flex items-center justify-between pt-1">
+          <span class="text-lg font-bold text-slate-900">Estimated Total</span>
+          <span class="text-xl font-extrabold text-slate-900"
+            >{{ cartDetails().totalCartPrice | currency: '' : '' : '1.0-2' }} EGP</span
+          >
+        </div>
+        <div class="pt-2">
+          @if (isLogged()) {
+            <button
+              [routerLink]="['/checkout', cartDetails()._id]"
+              class="w-full py-3.5 px-4 bg-main hover:bg-orange cursor-pointer text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-sm"
+            >
+              <i class="fa-solid fa-cart-shopping text-sm"></i>
+              <span>secure checkout</span>
+            </button>
+          } @else {
+            <button
+              routerLink="/login"
+              class="w-full py-3.5 px-4 bg-main hover:bg-orange cursor-pointer text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-2 shadow-sm"
+            >
+              <i class="fa-solid fa-user text-sm"></i>
+              <span>Login to Checkout</span>
+            </button>
+          }
+        </div>
+
+        <hr class="border-slate-100 my-2" />
+        <ul class="space-y-2 text-xs text-slate-500 font-medium">
+          <li class="flex items-center gap-1.5">
+            <span class="text-slate-400 font-bold">✓</span>
+            <span>Your cart items will be saved</span>
+          </li>
+          <li class="flex items-center gap-1.5">
+            <span class="text-slate-400 font-bold">✓</span>
+            <span>Track your orders easily</span>
+          </li>
+          <li class="flex items-center gap-1.5">
+            <span class="text-slate-400 font-bold">✓</span>
+            <span>Access exclusive member deals</span>
+          </li>
+        </ul>
+        <a
+          class="text-sm ml-auto w-fit text-main hover:text-orange cursor-pointer"
+          routerLink="/shop"
+        >
+          <i class="fa-solid fa-arrow-left"></i> Continue Shopping
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

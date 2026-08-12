@@ -16,6 +16,7 @@
           type="text"
           placeholder="Search for products..."
           class="w-full rounded-full cursor-pointer focus:cursor-text border border-gray-200 bg-gray-50 px-6 py-2 pr-12 outline-none transition-all focus:border-main focus:ring-main"
+          (input)="searchedProduct($event)"
         />
         <button
           class="absolute right-1 top-1 bottom-1 bg-main flex w-9 items-center justify-center rounded-full text-white transition-colors hover:bg-orange"
@@ -41,25 +42,48 @@
       >
       <div class="group relative">
         <button
-          routerLink="/categories"
+          (click)="appearCategories()"
           routerLinkActive="text-orange"
-          class="flex items-center gap-1 py-2 font-medium text-gray-700 transition-colors group-hover:text-orange"
+          class="flex items-center cursor-pointer gap-1 py-2 font-medium text-gray-700 transition-colors group-hover:text-orange"
         >
           Categories
-          <i class="fas fa-chevron-down text-2xs transition-transform group-hover:rotate-180"></i>
+          <i class="fas fa-chevron-down text-2xs transition-transform"></i>
         </button>
-        <div
-          class="invisible absolute left-0 z-50 mt-0 w-48 rounded-lg border border-gray-100 bg-white opacity-0 shadow-xl transition-all duration-200 group-hover:visible group-hover:opacity-100"
-        >
-          <ul class="py-2 text-sm text-gray-700">
-            <li>
-              <a class="block px-4 py-2 hover:bg-main/10 hover:text-orange">All Categories</a>
-            </li>
-            <li>
-              <a class="block px-4 py-2 hover:bg-main/10 hover:text-orange">Electronics</a>
-            </li>
-          </ul>
-        </div>
+        @if (isCategoriesAppears()) {
+          <div
+            class="absolute left-0 z-50 mt-0 w-48 rounded-lg border border-gray-100 bg-white shadow-xl transition-all duration-200"
+          >
+            <ul class="py-2 text-sm text-gray-700">
+              <li
+                [routerLink]="[
+                  '/category',
+                  MensFashionCategoryId().slug,
+                  MensFashionCategoryId()._id,
+                ]"
+              >
+                <a class="block px-4 py-2 hover:bg-main/10 hover:text-orange">Men's Fashion</a>
+              </li>
+              <li
+                [routerLink]="[
+                  '/category',
+                  WomensFashionCategoryId().slug,
+                  WomensFashionCategoryId()._id,
+                ]"
+              >
+                <a class="block px-4 py-2 hover:bg-main/10 hover:text-orange">Women's Fashion</a>
+              </li>
+              <li
+                [routerLink]="[
+                  '/category',
+                  ElectronicsCategoryId().slug,
+                  ElectronicsCategoryId()._id,
+                ]"
+              >
+                <a class="block px-4 py-2 hover:bg-main/10 hover:text-orange">Electronics</a>
+              </li>
+            </ul>
+          </div>
+        }
       </div>
       <a
         routerLink="/brands"
@@ -98,29 +122,54 @@
       <button
         routerLink="/wishlist"
         routerLinkActive="text-orange"
-        class="relative flex h-10 w-10 items-center cursor-pointer justify-center rounded-full text-gray-600 transition-all hover:bg-gray-100 hover:text-orange"
+        class="relative flex h-10 w-10 items-center cursor-pointer group justify-center rounded-full text-gray-600 transition-all hover:bg-gray-100 hover:text-orange"
       >
-        <i class="far fa-heart text-xl text-gray-600 hover:text-orange"></i>
+        <i class="far fa-heart text-2xl text-gray-600 group-hover:text-orange"></i>
+        @if (productsNumberInWishList()) {
+          <span
+            class="absolute right-0 top-1 rounded-full border-2 border-white bg-main hover:bg-orange px-1.5 text-2xs font-bold text-white"
+            >{{ productsNumberInWishList() }}</span
+          >
+        }
       </button>
+
       <button
         routerLink="/cart"
         routerLinkActive="text-orange"
-        class="relative flex h-10 w-10 items-center cursor-pointer justify-center rounded-full text-gray-600 transition-all hover:bg-gray-100 hover:text-orange"
+        class="relative flex h-10 w-10 items-center cursor-pointer group justify-center rounded-full text-gray-600 transition-all hover:bg-gray-100 hover:text-orange"
       >
-        <i class="fas fa-shopping-cart text-xl"></i>
-        <span
-          class="absolute right-1 top-1 rounded-full border-2 border-white bg-main hover:bg-orange px-1.5 text-2xs font-bold text-white"
-          >3</span
-        >
+        <i class="fas fa-shopping-cart text-xl group-hover:text-orange"></i>
+        @if (productsNumberInCart()) {
+          <span
+            class="absolute right-0 top-1 rounded-full border-2 border-white bg-main hover:bg-orange px-1.5 text-2xs font-bold text-white"
+            >{{ productsNumberInCart() }}</span
+          >
+        }
       </button>
 
       <div class="hidden sm:flex items-center gap-4 pl-2 md:border-l md:border-gray-200 md:pl-4">
-        <a
-          routerLink="/login"
-          class="flex items-center gap-2 font-medium p-3 rounded-full bg-main/90 hover:bg-orange transition-all duration-300 text-gray-700 transition-colors"
-        >
-          <i class="far fa-user text-lg"></i> Sign In
-        </a>
+        @if (isLogged()) {
+          <a
+            routerLink="/profile"
+            class="self-center flex items-center justify-center mt-1 p-1 hover:bg-gray-100 hover:rounded-full transition-all duration-300"
+            ><i
+              class="fa-regular fa-circle-user text-[1.625rem] text-gray-700 hover:text-orange transition-all duration-300"
+            ></i
+          ></a>
+          <button
+            (click)="signOut()"
+            class="flex cursor-pointer items-center gap-2 font-medium p-3 rounded-full bg-main/90 hover:bg-orange transition-all duration-300 text-gray-700 transition-colors"
+          >
+            <i class="fa-solid fa-right-from-bracket"></i> Sign out
+          </button>
+        } @else {
+          <a
+            routerLink="/login"
+            class="flex items-center cursor-pointer gap-2 font-medium p-3 rounded-full bg-main/90 hover:bg-orange transition-all duration-300 text-gray-700 transition-colors"
+          >
+            <i class="far fa-user text-lg"></i> Sign In
+          </a>
+        }
       </div>
 
       <!-- dropdown when login -->
@@ -209,7 +258,6 @@
       </li>
       <li>
         <a
-          routerLink="/categories"
           routerLinkActive="text-black hover:bg-main  rounded-[10px] p-2 bg-main"
           class="block text-gray-600 transition-colors hover:text-orange cursor-pointer"
         >

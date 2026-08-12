@@ -1,1 +1,467 @@
-<p>details works!</p>
+<section class="container m-auto mt-5">
+  <div class="flex gap-5">
+    <div class="w-[20%]">
+      <swiper-container
+        style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
+        class="mySwiper mb-3"
+        thumbs-swiper=".mySwiper2"
+        loop="true"
+        space-between="10"
+        navigation="true"
+      >
+        <swiper-slide>
+          <img [src]="product().imageCover" />
+        </swiper-slide>
+        @for (imgUrl of product().images; track $index; let i = $index) {
+          <swiper-slide>
+            <img [src]="product().images[i]" />
+          </swiper-slide>
+        }
+      </swiper-container>
+
+      <swiper-container
+        class="mySwiper2"
+        loop="true"
+        space-between="10"
+        slides-per-view="4"
+        free-mode="true"
+        watch-slides-progress="true"
+      >
+        <swiper-slide>
+          <img [src]="product().imageCover" />
+        </swiper-slide>
+        @for (imgUrl of product().images; track $index; let i = $index) {
+          <swiper-slide>
+            <img [src]="product().images[i]" />
+          </swiper-slide>
+        }
+      </swiper-container>
+    </div>
+    <div class="flex-1 rounded-[.625rem] p-3 self-center">
+      <div class="space-y-1 flex flex-col gap-2">
+        <h3
+          class="text-3xl font-bold text-slate-800 hover:text-orange cursor-pointer transition-colors"
+        >
+          {{ product().title }}
+        </h3>
+        <p>
+          {{ product().description }}
+        </p>
+        <div class="flex gap-3 my-2">
+          <span class="md:text-xs text-[1.25rem] font-medium text-gray-400">{{
+            product()?.brand?.name
+          }}</span>
+          <span class="md:text-xs text-[1.25rem] font-medium text-gray-400">{{
+            product()?.category?.name
+          }}</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <div class="flex text-yellow-400 text-sm gap-0.5">
+            @for (star of stars; track star) {
+              @if (product().ratingsAverage >= star) {
+                <i class="fas fa-star text-yellow-400"></i>
+              } @else if (product().ratingsAverage >= star - 0.5) {
+                <i class="fas fa-star-half-alt text-yellow-400"></i>
+              } @else {
+                <i class="far fa-star text-gray-300"></i>
+              }
+            }
+          </div>
+        </div>
+
+        <div class="mt-2">
+          <span class="md:text-[1.25rem] text-sm font-medium text-slate-900">{{
+            product().priceAfterDiscount
+              ? (product().priceAfterDiscount | currency: 'EGP')
+              : (product().price | currency: 'EGP')
+          }}</span>
+          @if (product().priceAfterDiscount) {
+            <span class="md:text-sm text-[.5rem] text-gray-500 ps-1 line-through"
+              >{{ product().price }} EGP</span
+            >
+          }
+        </div>
+        <div>
+          <span class="text-sm text-gray-400 font-medium">
+            RatingsAverage: {{ product().ratingsAverage }}</span
+          >
+          <span class="text-sm text-gray-400 font-medium ms-2">
+            Viewers : {{ product().ratingsQuantity }}</span
+          >
+        </div>
+
+        <div
+          [class]="
+            product().quantity > 0 ? 'bg-main hover:bg-orange' : 'bg-gray-300 hover:bg-gray-500'
+          "
+          class="col-span-6 md:col-span-3 lg:col-span-1 p-2 rounded-[.625rem] transition-all duration-300 text-center text-xs sm:text-sm"
+        >
+          {{ product().quantity > 0 ? 'In stock' : 'solded' }}
+        </div>
+
+        <div class="flex items-center gap-4">
+          <!-- Add to Cart Button -->
+          <button
+            (click)="addProductTocart(product()._id)"
+            class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-6 rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
+          >
+            <i class="fas fa-shopping-cart text-sm"></i>
+            <span>Add to Cart</span>
+          </button>
+
+          <!-- Buy Now Button -->
+          <button
+            (click)="addProductToWishList(product()._id)"
+            class="flex-1 bg-slate-900 hover:bg-slate-800 group text-white font-medium py-3 px-6 rounded-xl flex items-center justify-center gap-2 shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer"
+          >
+            <i
+              class="far fa-heart text-xl text-gray-600 group-hover:text-red-500 transition-colors duration-300 cursor-pointer"
+            ></i>
+            <span>Add to wishlist</span>
+          </button>
+        </div>
+        <div
+          class="grid grid-cols-1 md:grid-cols-3 items-center gap-6 py-6 border-y border-gray-100"
+        >
+          <!-- Feature 1: Free Delivery -->
+          <div class="flex items-center gap-4">
+            <div
+              class="w-12 h-12 rounded-full bg-white border border-gray-100 text-main flex items-center justify-center shrink-0"
+            >
+              <i class="fas fa-truck text-lg"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-900 text-base leading-tight">Free Delivery</h4>
+              <p class="text-sm text-gray-500 mt-0.5">Orders over $50</p>
+            </div>
+          </div>
+
+          <!-- Feature 2: 30 Days Return -->
+          <div class="flex items-center gap-4">
+            <div
+              class="w-12 h-12 rounded-full bg-white border border-gray-100 text-main flex items-center justify-center shrink-0"
+            >
+              <i class="fas fa-redo-alt text-lg"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-900 text-base leading-tight">30 Days Return</h4>
+              <p class="text-sm text-gray-500 mt-0.5">Money back</p>
+            </div>
+          </div>
+
+          <!-- Feature 3: Secure Payment -->
+          <div class="flex items-center gap-4">
+            <div
+              class="w-12 h-12 rounded-full bg-white border border-gray-100 text-main flex items-center justify-center shrink-0"
+            >
+              <i class="fas fa-shield-alt text-lg"></i>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-900 text-base leading-tight">Secure Payment</h4>
+              <p class="text-sm text-gray-500 mt-0.5">100% Protected</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mt-5 p-2">
+    <!-- Tabs Navigation Header -->
+    <div class="flex items-center gap-8 border-b border-gray-100 px-6 pt-4">
+      <!-- Active Tab -->
+      <button
+        (click)="detailsPart.set('Details')"
+        [class]="
+          detailsPart() == 'Details'
+            ? 'border-b-2 border-main text-main'
+            : 'text-gray-500 hover:text-gray-700'
+        "
+        class="flex items-center gap-2 pb-4 font-medium text-base transition-colors cursor-pointer"
+      >
+        <i class="fas fa-box text-sm"></i>
+        <span>Product Details</span>
+      </button>
+
+      <!-- Tab 2 -->
+      <button
+        (click)="getReviewsForProduct(product().id)"
+        [class]="
+          detailsPart() == 'Reviews'
+            ? 'border-b-2 border-main text-main'
+            : 'text-gray-500 hover:text-gray-700'
+        "
+        class="flex items-center gap-2 pb-4 font-medium text-base transition-colors cursor-pointer"
+      >
+        <i class="fas fa-star text-sm"></i>
+        <span>Reviews ({{ product().ratingsQuantity }})</span>
+      </button>
+
+      <!-- Tab 3 -->
+      <button
+        (click)="detailsPart.set('Returns')"
+        [class]="
+          detailsPart() == 'Returns'
+            ? 'border-b-2 border-main text-main'
+            : 'text-gray-500 hover:text-gray-700'
+        "
+        class="flex items-center gap-2 pb-4 font-medium text-base transition-colors cursor-pointer"
+      >
+        <i class="fas fa-truck text-sm"></i>
+        <span>Shipping & Returns</span>
+      </button>
+    </div>
+
+    @switch (detailsPart()) {
+      @case ('Details') {
+        <!-- Tab Content Area -->
+        <div class="p-6 space-y-6">
+          <!-- Description Section -->
+          <div class="space-y-2">
+            <h3 class="text-lg font-bold text-gray-900">About this Product</h3>
+            <p class="text-gray-600 text-base leading-relaxed">
+              {{ product().description }}
+            </p>
+          </div>
+
+          <!-- Info & Features Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Product Information Card -->
+            <div class="bg-gray-50/70 rounded-xl space-y-3">
+              <h4 class="font-bold text-gray-900 text-base mb-4">Product Information</h4>
+
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-500">Category</span>
+                <span class="font-semibold text-gray-900">{{ product().category.name }}</span>
+              </div>
+
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-500">Subcategory</span>
+                <span class="font-semibold text-gray-900">{{
+                  product()?.subcategory?.[0]?.name
+                }}</span>
+              </div>
+
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-500">Brand</span>
+                <span class="font-semibold text-gray-900">{{ product().brand.name }}</span>
+              </div>
+
+              <div class="flex justify-between items-center text-sm">
+                <span class="text-gray-500">Items Sold</span>
+                <span class="font-semibold text-gray-900">{{ product().sold }}+ sold</span>
+              </div>
+            </div>
+
+            <!-- Key Features Card -->
+            <div class="bg-gray-50/70 rounded-xl p-5 space-y-3">
+              <h4 class="font-bold text-gray-900 text-base mb-4">Key Features</h4>
+
+              <ul class="space-y-3 text-sm">
+                <li class="flex items-center gap-2.5 text-gray-700">
+                  <i class="fas fa-check text-main text-xs"></i>
+                  <span>Premium Quality Product</span>
+                </li>
+                <li class="flex items-center gap-2.5 text-gray-700">
+                  <i class="fas fa-check text-main text-xs"></i>
+                  <span>100% Authentic Guarantee</span>
+                </li>
+                <li class="flex items-center gap-2.5 text-gray-700">
+                  <i class="fas fa-check text-main text-xs"></i>
+                  <span>Fast & Secure Packaging</span>
+                </li>
+                <li class="flex items-center gap-2.5 text-gray-700">
+                  <i class="fas fa-check text-main text-xs"></i>
+                  <span>Quality Tested</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      }
+      @case ('Reviews') {
+        <div class="flex gap-3 p-3">
+          <!-- Left Side: Average Rating -->
+          <div class="w-[15%] flex flex-col justify-center items-center gap-3">
+            <span class="text-5xl font-bold">{{ product().ratingsAverage }}</span>
+            <p>Based on {{ reviewsList().length }} reviews</p>
+            <div class="flex items-center gap-1">
+              <div class="flex text-yellow-400 text-sm gap-0.5">
+                @for (star of stars; track star) {
+                  @if (product().ratingsAverage >= star) {
+                    <i class="fas fa-star text-yellow-400"></i>
+                  } @else if (product().ratingsAverage >= star - 0.5) {
+                    <i class="fas fa-star-half-alt text-yellow-400"></i>
+                  } @else {
+                    <i class="far fa-star text-gray-300"></i>
+                  }
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Side: Rating Progress Bars -->
+          <div
+            class="flex-1 bg-white p-6 rounded-2xl border border-gray-100 shadow-sm mx-auto space-y-3"
+          >
+            @for (star of [5, 4, 3, 2, 1]; track star) {
+              <div class="flex items-center gap-4 text-sm text-gray-600">
+                <span class="w-12 text-right font-medium shrink-0">{{ star }} star</span>
+                <div class="flex-1 bg-gray-100 h-2.5 rounded-full overflow-hidden">
+                  <div
+                    class="bg-amber-400 h-full rounded-full transition-all duration-500"
+                    [style.width.%]="calcRatingRatio()[star]"
+                  ></div>
+                </div>
+                <span class="w-10 text-right font-medium text-gray-500 shrink-0">
+                  {{ calcRatingRatio()[star] }}%
+                </span>
+              </div>
+            }
+          </div>
+        </div>
+        <form
+          [formGroup]="reviewForm"
+          (ngSubmit)="reviewSubmit()"
+          class="bg-white p-5 my-3 rounded-2xl border-2 border-gray-100 shadow-sm w-full space-y-4"
+        >
+          <div class="flex items-center gap-3 w-full">
+            <!-- Rating Select -->
+            <div class="w-32 shrink-0">
+              <select
+                id="rating"
+                name="rating"
+                formControlName="rating"
+                class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 outline-none cursor-pointer"
+              >
+                <option value="" disabled selected>Rating</option>
+                <option value="5">5 Stars</option>
+                <option value="4">4 Stars</option>
+                <option value="3">3 Stars</option>
+                <option value="2">2 Stars</option>
+                <option value="1">1 Star</option>
+              </select>
+              <app-alert [formGroup]="reviewForm" inputName="rating" errorType="minlength">
+                <ng-container firstMassage>rating is required.</ng-container>
+              </app-alert>
+            </div>
+
+            <!-- Review Text Input -->
+            <div class="flex-1">
+              <input
+                type="text"
+                formControlName="review"
+                id="comment"
+                name="comment"
+                placeholder="Write your review here..."
+                class="w-full p-2.5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-amber-500 focus:border-amber-500 outline-none"
+              />
+              <app-alert
+                [formGroup]="reviewForm"
+                inputName="review"
+                errorType="minlength"
+                errorType2="maxlength"
+              >
+                <ng-container firstMassage>review is required.</ng-container>
+                <ng-container secondMassage>review must be at least 1 character</ng-container>
+                <ng-container thirdMassage>review must be at most 58 characters</ng-container>
+              </app-alert>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              class="shrink-0 cursor-pointer bg-amber-500 hover:bg-amber-600 text-white font-medium py-2.5 px-5 rounded-lg transition duration-200 whitespace-nowrap"
+            >
+              Submit Review
+            </button>
+          </div>
+        </form>
+      }
+      @case ('Returns') {
+        <!-- Tab Content Area -->
+        <div class="p-6 space-y-6">
+          <!-- Top Grid: Shipping & Returns Info -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Shipping Information Card -->
+            <div class="bg-emerald-50/50 rounded-2xl p-6 space-y-4">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-10 h-10 rounded-full bg-main text-white flex items-center justify-center shrink-0"
+                >
+                  <i class="fas fa-truck text-sm"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 text-lg">Shipping Information</h4>
+              </div>
+
+              <ul class="space-y-2.5 text-sm">
+                <li class="flex items-center gap-2.5 text-gray-700">
+                  <i class="fas fa-check text-main text-xs"></i>
+                  <span>Free shipping on orders over $50</span>
+                </li>
+                <li class="flex items-center gap-2.5 text-gray-700">
+                  <i class="fas fa-check text-main text-xs"></i>
+                  <span>Standard delivery: 3-5 business days</span>
+                </li>
+                <li class="flex items-center gap-2.5 text-gray-700">
+                  <i class="fas fa-check text-main text-xs"></i>
+                  <span>Express delivery available (1-2 business days)</span>
+                </li>
+                <li class="flex items-center gap-2.5 text-gray-700">
+                  <i class="fas fa-check text-main text-xs"></i>
+                  <span>Track your order in real-time</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Returns & Refunds Card -->
+            <div class="bg-emerald-50/50 rounded-2xl p-6 space-y-4">
+              <div class="flex items-center gap-3">
+                <div
+                  class="w-10 h-10 rounded-full bg-main text-white flex items-center justify-center shrink-0"
+                >
+                  <i class="fas fa-redo-alt text-sm"></i>
+                </div>
+                <h4 class="font-bold text-gray-900 text-lg">Returns & Refunds</h4>
+              </div>
+
+              <ul class="space-y-2.5 text-sm">
+                <li class="flex items-center gap-2.5 text-gray-700">
+                  <i class="fas fa-check text-main text-xs"></i>
+                  <span>30-day hassle-free returns</span>
+                </li>
+                <li class="flex items-center gap-2.5 text-gray-700">
+                  <i class="fas fa-check text-main text-xs"></i>
+                  <span>Full refund or exchange available</span>
+                </li>
+                <li class="flex items-center gap-2.5 text-gray-700">
+                  <i class="fas fa-check text-main text-xs"></i>
+                  <span>Free return shipping on defective items</span>
+                </li>
+                <li class="flex items-center gap-2.5 text-gray-700">
+                  <i class="fas fa-check text-main text-xs"></i>
+                  <span>Easy online return process</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Bottom Banner: Buyer Protection Guarantee -->
+          <div class="bg-gray-50/80 rounded-2xl p-5 flex items-center gap-4">
+            <div
+              class="w-12 h-12 rounded-full bg-main text-white flex items-center justify-center shrink-0"
+            >
+              <i class="fas fa-shield-alt text-lg"></i>
+            </div>
+            <div class="space-y-0.5">
+              <h5 class="font-bold text-gray-900 text-base">Buyer Protection Guarantee</h5>
+              <p class="text-sm text-gray-500">
+                Get a full refund if your order doesn't arrive or isn't as described. We ensure your
+                shopping experience is safe and secure.
+              </p>
+            </div>
+          </div>
+        </div>
+      }
+    }
+  </div>
+</section>
