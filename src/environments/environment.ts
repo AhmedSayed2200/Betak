@@ -1,4 +1,4 @@
 export const environment = {
-    siteUrl:"http://localhost:4200",
+    siteUrl:"https://betak.onrender.com",
     baseUrl:"https://ecommerce.routemisr.com",
 };
